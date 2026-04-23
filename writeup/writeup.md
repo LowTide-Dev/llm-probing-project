@@ -15,9 +15,9 @@ Large language models (LLMs) trained on scientific corpora are increasingly used
 
 The remarkable performance of large language models on scientific benchmarks has prompted substantial interest in their use as reasoning engines for materials discovery and property prediction. However, strong benchmark performance does not necessarily entail that a model has formed a coherent internal representation of the underlying physics. A model may achieve high accuracy on a materials question-answering task by associating lexical patterns with correct answers, without ever forming anything resembling a "world model" of atomic structure.
 
-This distinction matters practically. If domain-specific pretraining (e.g., MatSciBERT, trained on materials science literature) improves task performance by encoding more explicitly physical concepts—making them linearly accessible from hidden representations—then we have grounds to trust such models as scientific reasoning tools. If, on the other hand, the improvement is superficial, domain-specific models carry a false sense of reliability.
+This distinction matters practically. If domain-specific pretraining (e.g., MatSciBERT, trained on materials science literature) improves task performance by encoding more explicitly physical concepts - making them linearly accessible from hidden representations, then we have grounds to trust such models as scientific reasoning tools. If, on the other hand, the improvement is superficial, domain-specific models carry a false sense of reliability.
 
-Linear probing (Alain & Bengio, 2016) offers a principled way to test this question. A linear probe is a logistic regression classifier trained on the frozen hidden states of a pretrained model. High probe accuracy at a given layer indicates that the concept in question is *linearly decodable* from that layer's representation—a stronger claim than behavioral accuracy alone.
+Linear probing (Alain & Bengio, 2016) offers a principled way to test this question. A linear probe is a logistic regression classifier trained on the frozen hidden states of a pretrained model. High probe accuracy at a given layer indicates that the concept in question is linearly decodable from that layer's representation, a stronger claim than behavioral accuracy alone.
 
 This project applies linear probing to two binary physical properties drawn from computational materials science:
 
@@ -36,15 +36,15 @@ The answer has implications not only for materials science AI, but for the broad
 
 ### 2.1 Linear Probing as an Interpretability Method
 
-Alain & Bengio (2016) introduced linear probes as a diagnostic tool for understanding the information geometry of intermediate neural network layers. Their key insight is that while deep layers may technically destroy Shannon information, they perform nonlinear transformations that can make information more linearly accessible. A classifier probe trained on layer $\ell$'s activations measures how "explicitly" that layer represents a target concept. We adopt their selectivity metric (probe accuracy minus control probe accuracy) to control for the possibility that the probe is learning the task rather than measuring representation.
+Alain & Bengio (2016) introduced linear probes as a diagnostic tool for understanding the information geometry of intermediate neural network layers. Their key insight is that while deep layers may technically destroy Shannon information, they perform nonlinear transformations that can make information more linearly accessible. A classifier probe trained on layer $\ell$'s activations measures how "explicitly" that layer represents a target concept. I am adopting their selectivity metric (probe accuracy minus control probe accuracy) to control for the possibility that the probe is learning the task rather than measuring representation.
 
 ### 2.2 Domain-Specific Language Models for Materials Science
 
-MatSciBERT (Gupta et al., 2022) extends BERT-style pretraining to materials science literature and demonstrates strong gains on named entity recognition and relation extraction tasks in the domain. LLaMat similarly shows that domain-specific pretraining can outperform larger general-purpose models on materials tasks. These results motivate our hypothesis that domain-specific models encode physical concepts more explicitly—though behavioral gains do not, by themselves, establish this.
+MatSciBERT (Gupta et al., 2022) extends BERT-style pretraining to materials science literature and demonstrates strong gains on named entity recognition and relation extraction tasks in the domain. LLaMat similarly shows that domain-specific pretraining can outperform larger general-purpose models on materials tasks. These results motivate my hypothesis that domain-specific models encode physical concepts more explicitly, though behavioral gains do not, by themselves, establish this.
 
 ### 2.3 Surprising Strength of General-Purpose Models
 
-Rubungo et al. (2023) present LLM-Prop, which finds that a general-purpose T5 encoder with a simple linear projection can outperform domain-specific models like MatBERT and state-of-the-art graph neural networks on materials property prediction tasks including band gap and unit cell volume. The authors argue this reflects the model's ability to access critical physical information—such as space group symmetry—from text descriptions. This finding sets up an important foil for our study: if a general-purpose model already captures the physical concepts we probe for, domain-specific pretraining may improve generation quality rather than conceptual encoding.
+Rubungo et al. (2023) present LLM-Prop, which finds that a general-purpose T5 encoder with a simple linear projection can outperform domain-specific models like MatBERT and state-of-the-art graph neural networks on materials property prediction tasks including band gap and unit cell volume. The authors argue this reflects the model's ability to access critical physical information. such as space group symmetry, from text descriptions. This finding sets up an important foil for our study: if a general-purpose model already captures the physical concepts we probe for, domain-specific pretraining may improve generation quality rather than conceptual encoding.
 
 ### 2.4 Token-Level Chemical Understanding
 
@@ -56,7 +56,7 @@ Tenney, Das, & Pavlick (2019) evaluate LLMs on materials science QA and property
 
 ### 2.6 Template: Domain-Specific vs. General Models via Probing
 
-Hummel et al. (2026) provide a direct methodological template for our work. Using linear probing to compare domain-specific bioacoustic models against general-purpose audio models, they show that even embeddings dominated by irrelevant features (e.g., recording-specific IDs) can be filtered via linear probing to isolate domain-relevant features (e.g., ship acoustic signatures). Their systematic comparison framework directly informs our experimental design.
+Hummel et al. (2026) provides a direct methodological template for our work. Using linear probing to compare domain-specific bioacoustic models against general-purpose audio models, they show that even embeddings dominated by irrelevant features (e.g., recording-specific IDs) can be filtered via linear probing to isolate domain-relevant features (e.g., ship acoustic signatures). Their systematic comparison framework directly informs the experimental design.
 
 ---
 
@@ -64,7 +64,7 @@ Hummel et al. (2026) provide a direct methodological template for our work. Usin
 
 ### 3.1 Dataset Construction
 
-We construct a dataset of approximately 300 short text descriptions of atomic configurations. Each description is derived from simulation output produced by LAMMPS (molecular dynamics) or Quantum ESPRESSO (DFT), and is labeled with one of two binary properties:
+I construct a dataset of approximately 300 short text descriptions of atomic configurations. Each description is derived from simulation output produced by LAMMPS (molecular dynamics) or Quantum ESPRESSO (DFT), and is labeled with one of two binary properties:
 
 - **Convergence label**: Converged / Unconverged (based on SCF convergence thresholds in QE output)
 - **Stability label**: Stable / Unstable (based on total energy relative to a reference configuration)
@@ -75,9 +75,11 @@ Descriptions are written in the style of materials science literature. For examp
 
 Labels are derived directly from simulation outputs rather than manually assigned, giving us ground-truth annotations grounded in physical definitions. We aim for approximately 150 examples per class per task.
 
+This is where I am currently at in my work. I am creating more of the outputs neccesary and collecting already existing ones and making sure they are clean.
+
 ### 3.2 Models
 
-We compare two BERT-style encoder models:
+We compare three BERT-style encoder models:
 
 | Model | Description |
 |-------|-------------|
@@ -101,10 +103,10 @@ Positive selectivity at a layer indicates that layer genuinely encodes the targe
 
 We report:
 
-1. **Layer-wise probe accuracy** for SciBERT and MatSciBERT on both tasks (convergence, stability)
-2. **Selectivity curves** across layers for both models
+1. **Layer-wise probe accuracy** for all models on both tasks (convergence, stability)
+2. **Selectivity curves** across layers for all models
 3. **Peak selectivity layer** — which layer most explicitly encodes each concept
-4. **Model comparison**: Does MatSciBERT achieve higher peak selectivity than SciBERT?
+4. **Model comparison**: Which models achieves highest peak selectivity?
 
 ---
 
@@ -137,31 +139,17 @@ Our conclusion will follow from which of these outcomes the experiments support.
 
 ## 6. Roadblocks and Open Challenges
 
-1. **Data volume**: 300 examples is small for reliable probe training. We may face high variance in accuracy estimates. We are considering extending to 500 examples if simulation time permits.
+1. **Data volume**: 300 examples is small for reliable probe training. I may face high variance in accuracy estimates. Ideally I can extend to 500 examples but due to budget and time constraints I doubt this to be possible.
 
-2. **Distribution of descriptions**: The text descriptions are generated from our own simulations, which may have limited stylistic diversity. If descriptions are too similar (e.g., formulaic output from the same simulation code), the probe may learn surface n-gram patterns rather than physical semantics.
+2. **Distribution of descriptions**: The text descriptions are generated from my own simulations, which may have limited stylistic diversity. If descriptions are too similar (e.g., formulaic output from the same simulation code), the probe may learn surface n-gram patterns rather than physical semantics.
 
-3. **Defining "stability"**: Structural stability is inherently relative and threshold-dependent. We must be precise about what constitutes a stable vs. unstable configuration in our labeling pipeline to avoid noisy labels.
+3. **Defining "stability"**: Structural stability is inherently relative and threshold-dependent. I must be precise about what constitutes a stable vs. unstable configuration in our labeling pipeline to avoid noisy labels.
 
 4. **Compute**: Extracting embeddings across all 12 layers for both models on 300 examples is manageable; running a full grid of probes (12 layers × 2 models × 2 tasks × 5-fold CV) is feasible on CPU but will take time.
 
 ---
 
-## 7. Questions for the Instructor
-
-1. **Statistical testing for selectivity**: Should we use paired t-tests or bootstrap confidence intervals to assess whether MatSciBERT's selectivity is *significantly* higher than SciBERT's? Or is visual comparison of curves the standard in the probing literature?
-
-2. **Control probe design**: Alain & Bengio use a permuted-label control. Is this the right baseline here, or would a majority-class baseline be more interpretable for a reader unfamiliar with the probing literature?
-
-3. **Dataset validity**: Does generating descriptions from my own simulation data (rather than existing published materials science text) strengthen or weaken the claim that we're testing "domain knowledge" that could have been in the training corpus? I worry the models haven't seen descriptions in exactly my format.
-
-4. **Mean-pool vs. [CLS]**: Is there a community norm in BERT-probing literature for which representation to prefer, or should we treat this as an experimental variable to report?
-
-5. **Scope check**: Am I right to focus only on binary classification probes (2 classes)? Or should I attempt a regression probe on a continuous property (e.g., total energy value)?
-
----
-
-## 8. Next Steps
+## 7. Next Steps
 
 - [ ] Complete dataset collection to 300 examples
 - [ ] Run embedding extraction on full dataset (SciBERT + MatSciBERT, all 12 layers, both pooling strategies)
