@@ -75,7 +75,7 @@ Descriptions are written in the style of materials science literature. For examp
 
 Labels are derived directly from simulation outputs rather than manually assigned, giving us ground-truth annotations grounded in physical definitions. We aim for approximately 150 examples per class per task.
 
-This is where I am currently at in my work. I am creating more of the outputs neccesary and collecting already existing ones and making sure they are clean.
+### *This is where I am currently at in my work. I am creating more of the outputs neccesary and collecting already existing ones and making sure they are clean.*
 
 ### 3.2 Models
 
@@ -87,13 +87,13 @@ We compare three BERT-style encoder models:
 | **MatSciBERT** (Gupta et al., 2022) | SciBERT further pretrained on materials science literature |
 | **MaterialsBERT** (Shetty, P., . et al, 2023) | BERT trained from scratch on 750,000 inorganic, organic, and composite materials articles (2005–2019, ~3B words) | 
 
-All models use 12 transformer layers with a [CLS] token. We extract the [CLS] embedding from each of the 12 layers of each model, yielding 24 embedding sets per example. We will also test mean-pooling across all tokens as an alternative to [CLS] extraction, given that physical knowledge in scientific text may be distributed across tokens rather than concentrated at [CLS].
+All models use 12 transformer layers with a [CLS] token. I will extract the [CLS] embedding from each of the 12 layers of each model, yielding 24 embedding sets per example. I will also test mean-pooling across all tokens as an alternative to [CLS] extraction, given that physical knowledge in scientific text may be distributed across tokens rather than concentrated at [CLS].
 
 ### 3.3 Probe Training
 
-For each layer $\ell \in \{1, ..., 12\}$ and each model, we train a logistic regression probe on the extracted embeddings using an 80/20 train/test split. The probe is intentionally simple—L2-regularized logistic regression—to avoid the probe itself overfitting and confounding our interpretation.
+For each layer $\ell \in \{1, ..., 12\}$ and each model, I'll train a logistic regression probe on the extracted embeddings using an 80/20 train/test split. The probe is intentionally simple—L2-regularized logistic regression—to avoid the probe itself overfitting and confounding our interpretation.
 
-We also train a control probe on randomized labels to establish a baseline accuracy that captures only the information in the embedding geometry (not the labels). Selectivity is then defined as:
+I'll also train a control probe on randomized labels to establish a baseline accuracy that captures only the information in the embedding geometry (not the labels). Selectivity is then defined as:
 
 $$\text{Selectivity}(\ell) = \text{Acc}_{\text{probe}}(\ell) - \text{Acc}_{\text{control}}(\ell)$$
 
@@ -101,7 +101,7 @@ Positive selectivity at a layer indicates that layer genuinely encodes the targe
 
 ### 3.4 Evaluation
 
-We report:
+To report:
 
 1. **Layer-wise probe accuracy** for all models on both tasks (convergence, stability)
 2. **Selectivity curves** across layers for all models
@@ -127,7 +127,7 @@ To add later
 
 ## 5. Expected Results and Preliminary Conclusions
 
-We anticipate the following outcomes, in rough order of probability:
+I anticipate the following outcomes, in rough order of probability:
 
 **Most likely**: MaterialsBERT outpreforms MatSciBERT which outperforms SciBERT on all tasks. 
 
