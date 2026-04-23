@@ -116,7 +116,7 @@ To add later
 
 ### 4.1 Dataset Status
 
-To add later
+Currently being worked on, unfortunately, wendian is being mean :(
 
 ### 4.2 Preliminary Embedding Extraction
 
