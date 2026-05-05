@@ -73,7 +73,7 @@ Convergence label:
 Labels are assigned programmatically from simulation output rather than manually, grounding them in physical definitions. An example description:
 "A geometry optimization using LJ/cut was run on 4 atoms under periodic boundary conditions. The relaxation satisfied both the energy and force tolerance criteria. Final energetics: potential energy = −70.4177 eV, total energy = −70.1850 eV."
 
-## 3.1.1 Helpful Background
+#### 3.1.1 Helpful Background
 Atomic level simulations model the behavior of large collections of atoms, specifically manipulating and/or recording how they interact and how they evolve over time or toward the materials equilibrium point. These interactions are known as the interatomic potential. A good optimization seeks a configuration where atomic forces are minimized; a standard molecular dynamic simulation involves relaxing a group of atoms under under a chosen thermodynamic ensemble, or given it certain volumetric parameters to see what happens under certain temperature conditions. Whether a given simulation has converged or produced a stable configuration are well-defined physical outcomes that I will use as probe targets.
 
 * LJ/cut (Lennard-Jones potential) is a classical pairwise potential suitable for simple metals
