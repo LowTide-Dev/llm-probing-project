@@ -28,19 +28,19 @@ The LJ/cut potential was used to relax a 4-atom metallic system. Minimization te
 === lammps_relax_maxiter_lj_4 | CONVERGENCE | label=Unconverged ===
 An energy minimization run with LJ/cut interactions on a 4-atom system terminated after reaching the maximum iteration limit without satisfying convergence criteria. The final potential energy recorded was 459.6945 eV. Pressure at the end of the run was 148097280.0000 bar.
 
-=== lammps_relax_linesearch_lj_0 | CONVERGENCE | label=Unconverged ===
+=== lammps_relax_linesearch_lj_0 | CONVERGENCE | label=Converged ===
 A geometry optimization using LJ/cut was run on 4 atoms under periodic boundary conditions. The relaxation satisfied both the energy and force tolerance criteria. Final energetics: potential energy = -70.4177 eV, total energy = -70.1851 eV.
 
-=== lammps_relax_linesearch_lj_1 | CONVERGENCE | label=Unconverged ===
+=== lammps_relax_linesearch_lj_1 | CONVERGENCE | label=Converged ===
 An energy minimization run with LJ/cut interactions on a 4-atom system satisfied both the energy and force tolerance criteria. The final potential energy recorded was -70.4177 eV. Pressure at the end of the run was 6263.8935 bar.
 
-=== lammps_relax_linesearch_lj_2 | CONVERGENCE | label=Unconverged ===
+=== lammps_relax_linesearch_lj_2 | CONVERGENCE | label=Converged ===
 Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a LJ/cut force field. The optimizer satisfied both the energy and force tolerance criteria after 314 steps. Total energy at the final step: -70.1851 eV.
 
-=== lammps_relax_linesearch_lj_3 | CONVERGENCE | label=Unconverged ===
+=== lammps_relax_linesearch_lj_3 | CONVERGENCE | label=Converged ===
 A structural relaxation of 4 atoms using the LJ/cut potential was performed. The minimization satisfied both the energy and force tolerance criteria. At termination the potential energy was -70.4177 eV and the total energy was -70.1851 eV. The simulation ran for 314 steps.
 
-=== lammps_relax_linesearch_lj_4 | CONVERGENCE | label=Unconverged ===
+=== lammps_relax_linesearch_lj_4 | CONVERGENCE | label=Converged ===
 The LJ/cut potential was used to relax a 4-atom metallic system. Minimization satisfied both the energy and force tolerance criteria at step 314. The potential energy at the end of the run was -70.4177 eV and the instantaneous pressure was 6263.8935 bar.
 
 === lammps_lj_low_0 | STABILITY | label=Stable ===
