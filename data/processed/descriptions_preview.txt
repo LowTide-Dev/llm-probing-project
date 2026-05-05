@@ -1,0 +1,375 @@
+=== lammps_conv_lj_0 | CONVERGENCE | label=Converged ===
+A geometry optimization using LJ/cut was run on 4 atoms under periodic boundary conditions. The relaxation satisfied both the energy and force tolerance criteria. Final energetics: potential energy = -70.4177 eV, total energy = -70.1850 eV.
+
+=== lammps_conv_lj_1 | CONVERGENCE | label=Converged ===
+An energy minimization run with LJ/cut interactions on a 4-atom system satisfied both the energy and force tolerance criteria. The final potential energy recorded was -70.4177 eV. Pressure at the end of the run was 7576.0488 bar.
+
+=== lammps_conv_lj_2 | CONVERGENCE | label=Converged ===
+Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a LJ/cut force field. The optimizer satisfied both the energy and force tolerance criteria after 308 steps. Total energy at the final step: -70.1850 eV.
+
+=== lammps_conv_lj_3 | CONVERGENCE | label=Converged ===
+The LJ/cut potential was used to relax a 4-atom metallic system. Minimization satisfied both the energy and force tolerance criteria at step 308. The potential energy at the end of the run was -70.4177 eV and the instantaneous pressure was 7576.0488 bar.
+
+=== lammps_conv_lj_4 | CONVERGENCE | label=Converged ===
+A structural relaxation of 4 atoms using the LJ/cut potential was performed. The minimization satisfied both the energy and force tolerance criteria. At termination the potential energy was -70.4177 eV and the total energy was -70.1850 eV. The simulation ran for 308 steps.
+
+=== lammps_relax_maxiter_lj_0 | CONVERGENCE | label=Unconverged ===
+A geometry optimization using LJ/cut was run on 4 atoms under periodic boundary conditions. The relaxation terminated after reaching the maximum iteration limit without satisfying convergence criteria. Final energetics: potential energy = 459.6945 eV, total energy = 459.9272 eV.
+
+=== lammps_relax_maxiter_lj_1 | CONVERGENCE | label=Unconverged ===
+Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a LJ/cut force field. The optimizer terminated after reaching the maximum iteration limit without satisfying convergence criteria after 10 steps. Total energy at the final step: 459.9272 eV.
+
+=== lammps_relax_maxiter_lj_2 | CONVERGENCE | label=Unconverged ===
+A structural relaxation of 4 atoms using the LJ/cut potential was performed. The minimization terminated after reaching the maximum iteration limit without satisfying convergence criteria. At termination the potential energy was 459.6945 eV and the total energy was 459.9272 eV. The simulation ran for 10 steps.
+
+=== lammps_relax_maxiter_lj_3 | CONVERGENCE | label=Unconverged ===
+The LJ/cut potential was used to relax a 4-atom metallic system. Minimization terminated after reaching the maximum iteration limit without satisfying convergence criteria at step 10. The potential energy at the end of the run was 459.6945 eV and the instantaneous pressure was 148097280.0000 bar.
+
+=== lammps_relax_maxiter_lj_4 | CONVERGENCE | label=Unconverged ===
+An energy minimization run with LJ/cut interactions on a 4-atom system terminated after reaching the maximum iteration limit without satisfying convergence criteria. The final potential energy recorded was 459.6945 eV. Pressure at the end of the run was 148097280.0000 bar.
+
+=== lammps_relax_linesearch_lj_0 | CONVERGENCE | label=Unconverged ===
+A geometry optimization using LJ/cut was run on 4 atoms under periodic boundary conditions. The relaxation satisfied both the energy and force tolerance criteria. Final energetics: potential energy = -70.4177 eV, total energy = -70.1851 eV.
+
+=== lammps_relax_linesearch_lj_1 | CONVERGENCE | label=Unconverged ===
+An energy minimization run with LJ/cut interactions on a 4-atom system satisfied both the energy and force tolerance criteria. The final potential energy recorded was -70.4177 eV. Pressure at the end of the run was 6263.8935 bar.
+
+=== lammps_relax_linesearch_lj_2 | CONVERGENCE | label=Unconverged ===
+Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a LJ/cut force field. The optimizer satisfied both the energy and force tolerance criteria after 314 steps. Total energy at the final step: -70.1851 eV.
+
+=== lammps_relax_linesearch_lj_3 | CONVERGENCE | label=Unconverged ===
+A structural relaxation of 4 atoms using the LJ/cut potential was performed. The minimization satisfied both the energy and force tolerance criteria. At termination the potential energy was -70.4177 eV and the total energy was -70.1851 eV. The simulation ran for 314 steps.
+
+=== lammps_relax_linesearch_lj_4 | CONVERGENCE | label=Unconverged ===
+The LJ/cut potential was used to relax a 4-atom metallic system. Minimization satisfied both the energy and force tolerance criteria at step 314. The potential energy at the end of the run was -70.4177 eV and the instantaneous pressure was 6263.8935 bar.
+
+=== lammps_lj_low_0 | STABILITY | label=Stable ===
+A constant-volume, constant-temperature (100.0 K) MD simulation using LJ/cut was performed on 108 atoms. After 10000 timesteps the total energy was -1835.0297 eV and the temperature had settled near 94.3 K. The configuration remained thermodynamically stable.
+
+=== lammps_lj_low_1 | STABILITY | label=Stable ===
+NVT dynamics at 100.0 K were applied to a 108-atom LJ/cut system over 10000 steps. The final potential energy was -1836.3341 eV. Based on the thermodynamic trajectory the system remained thermodynamically stable.
+
+=== lammps_lj_low_2 | STABILITY | label=Stable ===
+A LJ/cut molecular dynamics run in the NVT ensemble at 100.0 K was carried out on 108 atoms for 10000 steps. At the end of the simulation, temperature = 94.3 K, potential energy = -1836.3341 eV, total energy = -1835.0297 eV. The system remained thermodynamically stable.
+
+=== lammps_lj_low_3 | STABILITY | label=Stable ===
+Using a Nosé-Hoover thermostat set to 100.0 K, a LJ/cut simulation of 108 atoms ran for 10000 steps. Final state: T = 94.3 K, PE = -1836.3341 eV, E_total = -1835.0297 eV. The system remained thermodynamically stable.
+
+=== lammps_lj_low_4 | STABILITY | label=Stable ===
+An NVT molecular dynamics simulation of 108 atoms with LJ/cut interactions was run at a target temperature of 100.0 K for 10000 steps. The system remained thermodynamically stable. The final temperature was 94.3 K and the potential energy was -1836.3341 eV.
+
+=== lammps_lj_med_0 | STABILITY | label=Stable ===
+Using a Nosé-Hoover thermostat set to 600.0 K, a LJ/cut simulation of 108 atoms ran for 10000 steps. Final state: T = 548.2 K, PE = -1830.4608 eV, E_total = -1822.8790 eV. The system remained thermodynamically stable.
+
+=== lammps_lj_med_1 | STABILITY | label=Stable ===
+A LJ/cut molecular dynamics run in the NVT ensemble at 600.0 K was carried out on 108 atoms for 10000 steps. At the end of the simulation, temperature = 548.2 K, potential energy = -1830.4608 eV, total energy = -1822.8790 eV. The system remained thermodynamically stable.
+
+=== lammps_lj_med_2 | STABILITY | label=Stable ===
+NVT dynamics at 600.0 K were applied to a 108-atom LJ/cut system over 10000 steps. The final potential energy was -1830.4608 eV. Based on the thermodynamic trajectory the system remained thermodynamically stable.
+
+=== lammps_lj_med_3 | STABILITY | label=Stable ===
+An NVT molecular dynamics simulation of 108 atoms with LJ/cut interactions was run at a target temperature of 600.0 K for 10000 steps. The system remained thermodynamically stable. The final temperature was 548.2 K and the potential energy was -1830.4608 eV.
+
+=== lammps_lj_med_4 | STABILITY | label=Stable ===
+A constant-volume, constant-temperature (600.0 K) MD simulation using LJ/cut was performed on 108 atoms. After 10000 timesteps the total energy was -1822.8790 eV and the temperature had settled near 548.2 K. The configuration remained thermodynamically stable.
+
+=== lammps_lj_high_0 | STABILITY | label=Unstable ===
+NVT dynamics at 2000.0 K were applied to a 108-atom LJ/cut system over 10000 steps. The final potential energy was -1808.5859 eV. Based on the thermodynamic trajectory the system exhibited signs of thermal instability.
+
+=== lammps_lj_high_1 | STABILITY | label=Unstable ===
+A constant-volume, constant-temperature (2000.0 K) MD simulation using LJ/cut was performed on 108 atoms. After 10000 timesteps the total energy was -1782.8653 eV and the temperature had settled near 1859.7 K. The configuration exhibited signs of thermal instability.
+
+=== lammps_lj_high_2 | STABILITY | label=Unstable ===
+An NVT molecular dynamics simulation of 108 atoms with LJ/cut interactions was run at a target temperature of 2000.0 K for 10000 steps. The system exhibited signs of thermal instability. The final temperature was 1859.7 K and the potential energy was -1808.5859 eV.
+
+=== lammps_lj_high_3 | STABILITY | label=Unstable ===
+A LJ/cut molecular dynamics run in the NVT ensemble at 2000.0 K was carried out on 108 atoms for 10000 steps. At the end of the simulation, temperature = 1859.7 K, potential energy = -1808.5859 eV, total energy = -1782.8653 eV. The system exhibited signs of thermal instability.
+
+=== lammps_lj_high_4 | STABILITY | label=Unstable ===
+Using a Nosé-Hoover thermostat set to 2000.0 K, a LJ/cut simulation of 108 atoms ran for 10000 steps. Final state: T = 1859.7 K, PE = -1808.5859 eV, E_total = -1782.8653 eV. The system exhibited signs of thermal instability.
+
+=== lammps_nequip_relax_converged_0 | CONVERGENCE | label=Converged ===
+A constant-pressure, constant-temperature MD run using NequIP was carried out on unknown atoms at 600 K under elevated pressure. After 10000 steps the total energy was -29.5937 eV and pressure was 0.05 bar. The configuration ran to completion.
+
+=== lammps_nequip_relax_converged_1 | CONVERGENCE | label=Converged ===
+A NequIP simulation in the NPT ensemble at 600 K was run on unknown atoms under high external pressure for 10000 steps. At termination: T = 491.7 K, PE = -30.0386 eV, E_total = -29.5937 eV, P = 0.05 bar. The system ran to completion.
+
+=== lammps_nequip_relax_converged_2 | CONVERGENCE | label=Converged ===
+An NPT molecular dynamics simulation of unknown atoms with NequIP interactions was performed at 600 K under high applied pressure for 10000 steps. The system ran to completion. Final temperature: 491.7 K, potential energy: -30.0386 eV, pressure: 0.05 bar.
+
+=== lammps_nequip_relax_converged_3 | CONVERGENCE | label=Converged ===
+NPT dynamics at 600 K and high pressure were applied to a unknown-atom NequIP system over 10000 steps. The final potential energy was -30.0386 eV. The system ran to completion.
+
+=== lammps_nequip_relax_converged_4 | CONVERGENCE | label=Converged ===
+Using a Parrinello-Rahman barostat and Nose-Hoover thermostat, a NequIP NPT simulation of unknown atoms was run at 600 K under high pressure for 10000 steps. Final state: potential energy = -30.0386 eV, pressure = 0.05 bar. The system ran to completion.
+
+=== lammps_nequip_relax_maxiter_0 | CONVERGENCE | label=Unconverged ===
+Using a Parrinello-Rahman barostat and Nose-Hoover thermostat, a NequIP NPT simulation of unknown atoms was run at 600 K under high pressure for 10000 steps. Final state: potential energy = -29.3500 eV, pressure = 0.02 bar. The system ran to completion. Dangerous neighbor list builds were detected, suggesting atomic overlaps or instability.
+
+=== lammps_nequip_relax_maxiter_1 | CONVERGENCE | label=Unconverged ===
+An NPT molecular dynamics simulation of unknown atoms with NequIP interactions was performed at 600 K under high applied pressure for 10000 steps. The system ran to completion. Final temperature: 579.2 K, potential energy: -29.3500 eV, pressure: 0.02 bar. Dangerous neighbor list builds were detected, suggesting atomic overlaps or instability.
+
+=== lammps_nequip_relax_maxiter_2 | CONVERGENCE | label=Unconverged ===
+A constant-pressure, constant-temperature MD run using NequIP was carried out on unknown atoms at 600 K under elevated pressure. After 10000 steps the total energy was -28.8259 eV and pressure was 0.02 bar. The configuration ran to completion. Dangerous neighbor list builds were detected, suggesting atomic overlaps or instability.
+
+=== lammps_nequip_relax_maxiter_3 | CONVERGENCE | label=Unconverged ===
+NPT dynamics at 600 K and high pressure were applied to a unknown-atom NequIP system over 10000 steps. The final potential energy was -29.3500 eV. The system ran to completion. Dangerous neighbor list builds were detected, suggesting atomic overlaps or instability.
+
+=== lammps_nequip_relax_maxiter_4 | CONVERGENCE | label=Unconverged ===
+A NequIP simulation in the NPT ensemble at 600 K was run on unknown atoms under high external pressure for 10000 steps. At termination: T = 579.2 K, PE = -29.3500 eV, E_total = -28.8259 eV, P = 0.02 bar. The system ran to completion. Dangerous neighbor list builds were detected, suggesting atomic overlaps or instability.
+
+=== lammps_nequip_npt_high_0 | STABILITY | label=Unstable ===
+Using a Parrinello-Rahman barostat and Nose-Hoover thermostat, a NequIP NPT simulation of unknown atoms was run at 600 K under high pressure for 10000 steps. Final state: potential energy = -30.0613 eV, pressure = 0.00 bar. The system exhibited signs of mechanical failure or instability under high pressure. Dangerous neighbor list builds were detected, suggesting atomic overlaps or instability.
+
+=== lammps_nequip_npt_high_1 | STABILITY | label=Unstable ===
+A NequIP simulation in the NPT ensemble at 600 K was run on unknown atoms under high external pressure for 10000 steps. At termination: T = 503.0 K, PE = -30.0613 eV, E_total = -29.6062 eV, P = 0.00 bar. The system exhibited signs of mechanical failure or instability under high pressure. Dangerous neighbor list builds were detected, suggesting atomic overlaps or instability.
+
+=== lammps_nequip_npt_high_2 | STABILITY | label=Unstable ===
+An NPT molecular dynamics simulation of unknown atoms with NequIP interactions was performed at 600 K under high applied pressure for 10000 steps. The system exhibited signs of mechanical failure or instability under high pressure. Final temperature: 503.0 K, potential energy: -30.0613 eV, pressure: 0.00 bar. Dangerous neighbor list builds were detected, suggesting atomic overlaps or instability.
+
+=== lammps_nequip_npt_high_3 | STABILITY | label=Unstable ===
+NPT dynamics at 600 K and high pressure were applied to a unknown-atom NequIP system over 10000 steps. The final potential energy was -30.0613 eV. The system exhibited signs of mechanical failure or instability under high pressure. Dangerous neighbor list builds were detected, suggesting atomic overlaps or instability.
+
+=== lammps_nequip_npt_high_4 | STABILITY | label=Unstable ===
+A constant-pressure, constant-temperature MD run using NequIP was carried out on unknown atoms at 600 K under elevated pressure. After 10000 steps the total energy was -29.6062 eV and pressure was 0.00 bar. The configuration exhibited signs of mechanical failure or instability under high pressure. Dangerous neighbor list builds were detected, suggesting atomic overlaps or instability.
+
+=== lammps_lj_relax_compressed_0 | CONVERGENCE | label=Converged ===
+The LJ/cut potential was used to relax a 4-atom metallic system. Minimization satisfied both the energy and force tolerance criteria at step 138. The potential energy at the end of the run was -70.4177 eV and the instantaneous pressure was 6263.3716 bar.
+
+=== lammps_lj_relax_compressed_1 | CONVERGENCE | label=Converged ===
+Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a LJ/cut force field. The optimizer satisfied both the energy and force tolerance criteria after 138 steps. Total energy at the final step: -70.1851 eV.
+
+=== lammps_lj_relax_compressed_2 | CONVERGENCE | label=Converged ===
+An energy minimization run with LJ/cut interactions on a 4-atom system satisfied both the energy and force tolerance criteria. The final potential energy recorded was -70.4177 eV. Pressure at the end of the run was 6263.3716 bar.
+
+=== lammps_lj_relax_compressed_3 | CONVERGENCE | label=Converged ===
+A structural relaxation of 4 atoms using the LJ/cut potential was performed. The minimization satisfied both the energy and force tolerance criteria. At termination the potential energy was -70.4177 eV and the total energy was -70.1851 eV. The simulation ran for 138 steps.
+
+=== lammps_lj_relax_compressed_4 | CONVERGENCE | label=Converged ===
+A geometry optimization using LJ/cut was run on 4 atoms under periodic boundary conditions. The relaxation satisfied both the energy and force tolerance criteria. Final energetics: potential energy = -70.4177 eV, total energy = -70.1851 eV.
+
+=== lammps_lj_relax_stretched_0 | CONVERGENCE | label=Converged ===
+A geometry optimization using LJ/cut was run on 4 atoms under periodic boundary conditions. The relaxation satisfied both the energy and force tolerance criteria. Final energetics: potential energy = -70.4177 eV, total energy = -70.1850 eV.
+
+=== lammps_lj_relax_stretched_1 | CONVERGENCE | label=Converged ===
+An energy minimization run with LJ/cut interactions on a 4-atom system satisfied both the energy and force tolerance criteria. The final potential energy recorded was -70.4177 eV. Pressure at the end of the run was 7576.0488 bar.
+
+=== lammps_lj_relax_stretched_2 | CONVERGENCE | label=Converged ===
+A structural relaxation of 4 atoms using the LJ/cut potential was performed. The minimization satisfied both the energy and force tolerance criteria. At termination the potential energy was -70.4177 eV and the total energy was -70.1850 eV. The simulation ran for 984 steps.
+
+=== lammps_lj_relax_stretched_3 | CONVERGENCE | label=Converged ===
+Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a LJ/cut force field. The optimizer satisfied both the energy and force tolerance criteria after 984 steps. Total energy at the final step: -70.1850 eV.
+
+=== lammps_lj_relax_stretched_4 | CONVERGENCE | label=Converged ===
+The LJ/cut potential was used to relax a 4-atom metallic system. Minimization satisfied both the energy and force tolerance criteria at step 984. The potential energy at the end of the run was -70.4177 eV and the instantaneous pressure was 7576.0488 bar.
+
+=== lammps_lj_relax_displaced_0 | CONVERGENCE | label=Converged ===
+Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a LJ/cut force field. The optimizer satisfied both the energy and force tolerance criteria after 1517 steps. Total energy at the final step: -70.1850 eV.
+
+=== lammps_lj_relax_displaced_1 | CONVERGENCE | label=Converged ===
+A geometry optimization using LJ/cut was run on 4 atoms under periodic boundary conditions. The relaxation satisfied both the energy and force tolerance criteria. Final energetics: potential energy = -70.4177 eV, total energy = -70.1850 eV.
+
+=== lammps_lj_relax_displaced_2 | CONVERGENCE | label=Converged ===
+An energy minimization run with LJ/cut interactions on a 4-atom system satisfied both the energy and force tolerance criteria. The final potential energy recorded was -70.4177 eV. Pressure at the end of the run was 1918.2990 bar.
+
+=== lammps_lj_relax_displaced_3 | CONVERGENCE | label=Converged ===
+A structural relaxation of 4 atoms using the LJ/cut potential was performed. The minimization satisfied both the energy and force tolerance criteria. At termination the potential energy was -70.4177 eV and the total energy was -70.1850 eV. The simulation ran for 1517 steps.
+
+=== lammps_lj_relax_displaced_4 | CONVERGENCE | label=Converged ===
+The LJ/cut potential was used to relax a 4-atom metallic system. Minimization satisfied both the energy and force tolerance criteria at step 1517. The potential energy at the end of the run was -70.4177 eV and the instantaneous pressure was 1918.2990 bar.
+
+=== lammps_lj_relax_maxiter5_0 | CONVERGENCE | label=Unconverged ===
+A structural relaxation of 4 atoms using the LJ/cut potential was performed. The minimization terminated after reaching the maximum iteration limit without satisfying convergence criteria. At termination the potential energy was 506.6952 eV and the total energy was 506.9278 eV. The simulation ran for 5 steps.
+
+=== lammps_lj_relax_maxiter5_1 | CONVERGENCE | label=Unconverged ===
+An energy minimization run with LJ/cut interactions on a 4-atom system terminated after reaching the maximum iteration limit without satisfying convergence criteria. The final potential energy recorded was 506.6952 eV. Pressure at the end of the run was 162719180.0000 bar.
+
+=== lammps_lj_relax_maxiter5_2 | CONVERGENCE | label=Unconverged ===
+A geometry optimization using LJ/cut was run on 4 atoms under periodic boundary conditions. The relaxation terminated after reaching the maximum iteration limit without satisfying convergence criteria. Final energetics: potential energy = 506.6952 eV, total energy = 506.9278 eV.
+
+=== lammps_lj_relax_maxiter5_3 | CONVERGENCE | label=Unconverged ===
+Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a LJ/cut force field. The optimizer terminated after reaching the maximum iteration limit without satisfying convergence criteria after 5 steps. Total energy at the final step: 506.9278 eV.
+
+=== lammps_lj_relax_maxiter5_4 | CONVERGENCE | label=Unconverged ===
+The LJ/cut potential was used to relax a 4-atom metallic system. Minimization terminated after reaching the maximum iteration limit without satisfying convergence criteria at step 5. The potential energy at the end of the run was 506.6952 eV and the instantaneous pressure was 162719180.0000 bar.
+
+=== lammps_lj_relax_maxiter20_0 | CONVERGENCE | label=Unconverged ===
+A geometry optimization using LJ/cut was run on 4 atoms under periodic boundary conditions. The relaxation terminated after reaching the maximum iteration limit without satisfying convergence criteria. Final energetics: potential energy = 376.6394 eV, total energy = 376.8721 eV.
+
+=== lammps_lj_relax_maxiter20_1 | CONVERGENCE | label=Unconverged ===
+A structural relaxation of 4 atoms using the LJ/cut potential was performed. The minimization terminated after reaching the maximum iteration limit without satisfying convergence criteria. At termination the potential energy was 376.6394 eV and the total energy was 376.8721 eV. The simulation ran for 20 steps.
+
+=== lammps_lj_relax_maxiter20_2 | CONVERGENCE | label=Unconverged ===
+Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a LJ/cut force field. The optimizer terminated after reaching the maximum iteration limit without satisfying convergence criteria after 20 steps. Total energy at the final step: 376.8721 eV.
+
+=== lammps_lj_relax_maxiter20_3 | CONVERGENCE | label=Unconverged ===
+An energy minimization run with LJ/cut interactions on a 4-atom system terminated after reaching the maximum iteration limit without satisfying convergence criteria. The final potential energy recorded was 376.6394 eV. Pressure at the end of the run was 122663970.0000 bar.
+
+=== lammps_lj_relax_maxiter20_4 | CONVERGENCE | label=Unconverged ===
+The LJ/cut potential was used to relax a 4-atom metallic system. Minimization terminated after reaching the maximum iteration limit without satisfying convergence criteria at step 20. The potential energy at the end of the run was 376.6394 eV and the instantaneous pressure was 122663970.0000 bar.
+
+=== lammps_lj_nvt_300k_0 | STABILITY | label=Stable ===
+NVT dynamics at 300.0 K were applied to a 4-atom LJ/cut system over 10000 steps. The final potential energy was 640.9436 eV. Based on the thermodynamic trajectory the system remained thermodynamically stable.
+
+=== lammps_lj_nvt_300k_1 | STABILITY | label=Stable ===
+Using a Nosé-Hoover thermostat set to 300.0 K, a LJ/cut simulation of 4 atoms ran for 10000 steps. Final state: T = 389.1 K, PE = 640.9436 eV, E_total = 646.3246 eV. The system remained thermodynamically stable.
+
+=== lammps_lj_nvt_300k_2 | STABILITY | label=Stable ===
+A LJ/cut molecular dynamics run in the NVT ensemble at 300.0 K was carried out on 4 atoms for 10000 steps. At the end of the simulation, temperature = 389.1 K, potential energy = 640.9436 eV, total energy = 646.3246 eV. The system remained thermodynamically stable.
+
+=== lammps_lj_nvt_300k_3 | STABILITY | label=Stable ===
+A constant-volume, constant-temperature (300.0 K) MD simulation using LJ/cut was performed on 4 atoms. After 10000 timesteps the total energy was 646.3246 eV and the temperature had settled near 389.1 K. The configuration remained thermodynamically stable.
+
+=== lammps_lj_nvt_300k_4 | STABILITY | label=Stable ===
+An NVT molecular dynamics simulation of 4 atoms with LJ/cut interactions was run at a target temperature of 300.0 K for 10000 steps. The system remained thermodynamically stable. The final temperature was 389.1 K and the potential energy was 640.9436 eV.
+
+=== lammps_lj_nvt_1000k_0 | STABILITY | label=Stable ===
+A LJ/cut molecular dynamics run in the NVT ensemble at 1000.0 K was carried out on 4 atoms for 10000 steps. At the end of the simulation, temperature = 1061.9 K, potential energy = 651.1574 eV, total energy = 665.8438 eV. The system remained thermodynamically stable.
+
+=== lammps_lj_nvt_1000k_1 | STABILITY | label=Stable ===
+NVT dynamics at 1000.0 K were applied to a 4-atom LJ/cut system over 10000 steps. The final potential energy was 651.1574 eV. Based on the thermodynamic trajectory the system remained thermodynamically stable.
+
+=== lammps_lj_nvt_1000k_2 | STABILITY | label=Stable ===
+Using a Nosé-Hoover thermostat set to 1000.0 K, a LJ/cut simulation of 4 atoms ran for 10000 steps. Final state: T = 1061.9 K, PE = 651.1574 eV, E_total = 665.8438 eV. The system remained thermodynamically stable.
+
+=== lammps_lj_nvt_1000k_3 | STABILITY | label=Stable ===
+An NVT molecular dynamics simulation of 4 atoms with LJ/cut interactions was run at a target temperature of 1000.0 K for 10000 steps. The system remained thermodynamically stable. The final temperature was 1061.9 K and the potential energy was 651.1574 eV.
+
+=== lammps_lj_nvt_1000k_4 | STABILITY | label=Stable ===
+A constant-volume, constant-temperature (1000.0 K) MD simulation using LJ/cut was performed on 4 atoms. After 10000 timesteps the total energy was 665.8438 eV and the temperature had settled near 1061.9 K. The configuration remained thermodynamically stable.
+
+=== lammps_lj_nvt_1500k_0 | STABILITY | label=Unstable ===
+Using a Nosé-Hoover thermostat set to 1500.0 K, a LJ/cut simulation of 4 atoms ran for 10000 steps. Final state: T = 1582.8 K, PE = 657.1536 eV, E_total = 679.0445 eV. The system exhibited signs of thermal instability.
+
+=== lammps_lj_nvt_1500k_1 | STABILITY | label=Unstable ===
+A constant-volume, constant-temperature (1500.0 K) MD simulation using LJ/cut was performed on 4 atoms. After 10000 timesteps the total energy was 679.0445 eV and the temperature had settled near 1582.8 K. The configuration exhibited signs of thermal instability.
+
+=== lammps_lj_nvt_1500k_2 | STABILITY | label=Unstable ===
+An NVT molecular dynamics simulation of 4 atoms with LJ/cut interactions was run at a target temperature of 1500.0 K for 10000 steps. The system exhibited signs of thermal instability. The final temperature was 1582.8 K and the potential energy was 657.1536 eV.
+
+=== lammps_lj_nvt_1500k_3 | STABILITY | label=Unstable ===
+NVT dynamics at 1500.0 K were applied to a 4-atom LJ/cut system over 10000 steps. The final potential energy was 657.1536 eV. Based on the thermodynamic trajectory the system exhibited signs of thermal instability.
+
+=== lammps_lj_nvt_1500k_4 | STABILITY | label=Unstable ===
+A LJ/cut molecular dynamics run in the NVT ensemble at 1500.0 K was carried out on 4 atoms for 10000 steps. At the end of the simulation, temperature = 1582.8 K, potential energy = 657.1536 eV, total energy = 679.0445 eV. The system exhibited signs of thermal instability.
+
+=== lammps_lj_nvt_low_large_0 | STABILITY | label=Stable ===
+An NVT molecular dynamics simulation of 14 atoms with LJ/cut interactions was run at a target temperature of 100.0 K for unknown steps. The system remained thermodynamically stable. The final temperature was 100.0 K and the potential energy was 11410114000.0000 eV.
+
+=== lammps_lj_nvt_low_large_1 | STABILITY | label=Stable ===
+A LJ/cut molecular dynamics run in the NVT ensemble at 100.0 K was carried out on 14 atoms for unknown steps. At the end of the simulation, temperature = 100.0 K, potential energy = 11410114000.0000 eV, total energy = 11410114000.0000 eV. The system remained thermodynamically stable.
+
+=== lammps_lj_nvt_low_large_2 | STABILITY | label=Stable ===
+Using a Nosé-Hoover thermostat set to 100.0 K, a LJ/cut simulation of 14 atoms ran for unknown steps. Final state: T = 100.0 K, PE = 11410114000.0000 eV, E_total = 11410114000.0000 eV. The system remained thermodynamically stable.
+
+=== lammps_lj_nvt_low_large_3 | STABILITY | label=Stable ===
+A constant-volume, constant-temperature (100.0 K) MD simulation using LJ/cut was performed on 14 atoms. After unknown timesteps the total energy was 11410114000.0000 eV and the temperature had settled near 100.0 K. The configuration remained thermodynamically stable.
+
+=== lammps_lj_nvt_low_large_4 | STABILITY | label=Stable ===
+NVT dynamics at 100.0 K were applied to a 14-atom LJ/cut system over unknown steps. The final potential energy was 11410114000.0000 eV. Based on the thermodynamic trajectory the system remained thermodynamically stable.
+
+=== lammps_eam_relax_compressed_0 | CONVERGENCE | label=Converged ===
+A geometry optimization using EAM was run on 4 atoms under periodic boundary conditions. The relaxation satisfied both the energy and force tolerance criteria. Final energetics: potential energy = -17.8000 eV, total energy = -17.5673 eV.
+
+=== lammps_eam_relax_compressed_1 | CONVERGENCE | label=Converged ===
+The EAM potential was used to relax a 4-atom metallic system. Minimization satisfied both the energy and force tolerance criteria at step 175. The potential energy at the end of the run was -17.8000 eV and the instantaneous pressure was 5698.0781 bar.
+
+=== lammps_eam_relax_compressed_2 | CONVERGENCE | label=Converged ===
+Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a EAM force field. The optimizer satisfied both the energy and force tolerance criteria after 175 steps. Total energy at the final step: -17.5673 eV.
+
+=== lammps_eam_relax_compressed_3 | CONVERGENCE | label=Converged ===
+An energy minimization run with EAM interactions on a 4-atom system satisfied both the energy and force tolerance criteria. The final potential energy recorded was -17.8000 eV. Pressure at the end of the run was 5698.0781 bar.
+
+=== lammps_eam_relax_compressed_4 | CONVERGENCE | label=Converged ===
+A structural relaxation of 4 atoms using the EAM potential was performed. The minimization satisfied both the energy and force tolerance criteria. At termination the potential energy was -17.8000 eV and the total energy was -17.5673 eV. The simulation ran for 175 steps.
+
+=== lammps_eam_relax_stretched_0 | CONVERGENCE | label=Converged ===
+A structural relaxation of 4 atoms using the EAM potential was performed. The minimization satisfied both the energy and force tolerance criteria. At termination the potential energy was -17.8000 eV and the total energy was -17.5673 eV. The simulation ran for 532 steps.
+
+=== lammps_eam_relax_stretched_1 | CONVERGENCE | label=Converged ===
+Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a EAM force field. The optimizer satisfied both the energy and force tolerance criteria after 532 steps. Total energy at the final step: -17.5673 eV.
+
+=== lammps_eam_relax_stretched_2 | CONVERGENCE | label=Converged ===
+The EAM potential was used to relax a 4-atom metallic system. Minimization satisfied both the energy and force tolerance criteria at step 532. The potential energy at the end of the run was -17.8000 eV and the instantaneous pressure was 5709.8664 bar.
+
+=== lammps_eam_relax_stretched_3 | CONVERGENCE | label=Converged ===
+A geometry optimization using EAM was run on 4 atoms under periodic boundary conditions. The relaxation satisfied both the energy and force tolerance criteria. Final energetics: potential energy = -17.8000 eV, total energy = -17.5673 eV.
+
+=== lammps_eam_relax_stretched_4 | CONVERGENCE | label=Converged ===
+An energy minimization run with EAM interactions on a 4-atom system satisfied both the energy and force tolerance criteria. The final potential energy recorded was -17.8000 eV. Pressure at the end of the run was 5709.8664 bar.
+
+=== lammps_eam_relax_displaced_0 | CONVERGENCE | label=Converged ===
+A structural relaxation of 4 atoms using the EAM potential was performed. The minimization satisfied both the energy and force tolerance criteria. At termination the potential energy was -17.8000 eV and the total energy was -17.5673 eV. The simulation ran for 1203 steps.
+
+=== lammps_eam_relax_displaced_1 | CONVERGENCE | label=Converged ===
+A geometry optimization using EAM was run on 4 atoms under periodic boundary conditions. The relaxation satisfied both the energy and force tolerance criteria. Final energetics: potential energy = -17.8000 eV, total energy = -17.5673 eV.
+
+=== lammps_eam_relax_displaced_2 | CONVERGENCE | label=Converged ===
+Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a EAM force field. The optimizer satisfied both the energy and force tolerance criteria after 1203 steps. Total energy at the final step: -17.5673 eV.
+
+=== lammps_eam_relax_displaced_3 | CONVERGENCE | label=Converged ===
+An energy minimization run with EAM interactions on a 4-atom system satisfied both the energy and force tolerance criteria. The final potential energy recorded was -17.8000 eV. Pressure at the end of the run was 5703.7700 bar.
+
+=== lammps_eam_relax_displaced_4 | CONVERGENCE | label=Converged ===
+The EAM potential was used to relax a 4-atom metallic system. Minimization satisfied both the energy and force tolerance criteria at step 1203. The potential energy at the end of the run was -17.8000 eV and the instantaneous pressure was 5703.7700 bar.
+
+=== lammps_eam_relax_maxiter5_0 | CONVERGENCE | label=Unconverged ===
+Structural relaxation was attempted on a 4-atom FCC Nickel configuration using a EAM force field. The optimizer terminated after reaching the maximum iteration limit without satisfying convergence criteria after 5 steps. Total energy at the final step: -5.9365 eV.
+
+=== lammps_eam_relax_maxiter5_1 | CONVERGENCE | label=Unconverged ===
+A geometry optimization using EAM was run on 4 atoms under periodic boundary conditions. The relaxation terminated after reaching the maximum iteration limit without satisfying convergence criteria. Final energetics: potential energy = -6.1692 eV, total energy = -5.9365 eV.
+
+=== lammps_eam_relax_maxiter5_2 | CONVERGENCE | label=Unconverged ===
+The EAM potential was used to relax a 4-atom metallic system. Minimization terminated after reaching the maximum iteration limit without satisfying convergence criteria at step 5. The potential energy at the end of the run was -6.1692 eV and the instantaneous pressure was 303192.6800 bar.
+
+=== lammps_eam_relax_maxiter5_3 | CONVERGENCE | label=Unconverged ===
+An energy minimization run with EAM interactions on a 4-atom system terminated after reaching the maximum iteration limit without satisfying convergence criteria. The final potential energy recorded was -6.1692 eV. Pressure at the end of the run was 303192.6800 bar.
+
+=== lammps_eam_relax_maxiter5_4 | CONVERGENCE | label=Unconverged ===
+A structural relaxation of 4 atoms using the EAM potential was performed. The minimization terminated after reaching the maximum iteration limit without satisfying convergence criteria. At termination the potential energy was -6.1692 eV and the total energy was -5.9365 eV. The simulation ran for 5 steps.
+
+=== lammps_eam_nvt_low_0 | STABILITY | label=Stable ===
+A constant-volume, constant-temperature (100.0 K) MD simulation using EAM was performed on 4 atoms. After 200 timesteps the total energy was -340.8860 eV and the temperature had settled near 1042.4 K. The configuration remained thermodynamically stable.
+
+=== lammps_eam_nvt_low_1 | STABILITY | label=Stable ===
+Using a Nosé-Hoover thermostat set to 100.0 K, a EAM simulation of 4 atoms ran for 200 steps. Final state: T = 1042.4 K, PE = -355.3038 eV, E_total = -340.8860 eV. The system remained thermodynamically stable.
+
+=== lammps_eam_nvt_low_2 | STABILITY | label=Stable ===
+An NVT molecular dynamics simulation of 4 atoms with EAM interactions was run at a target temperature of 100.0 K for 200 steps. The system remained thermodynamically stable. The final temperature was 1042.4 K and the potential energy was -355.3038 eV.
+
+=== lammps_eam_nvt_low_3 | STABILITY | label=Stable ===
+NVT dynamics at 100.0 K were applied to a 4-atom EAM system over 200 steps. The final potential energy was -355.3038 eV. Based on the thermodynamic trajectory the system remained thermodynamically stable.
+
+=== lammps_eam_nvt_low_4 | STABILITY | label=Stable ===
+A EAM molecular dynamics run in the NVT ensemble at 100.0 K was carried out on 4 atoms for 200 steps. At the end of the simulation, temperature = 1042.4 K, potential energy = -355.3038 eV, total energy = -340.8860 eV. The system remained thermodynamically stable.
+
+=== lammps_nequip_nvt_stable_0 | STABILITY | label=Stable ===
+A NequIP molecular dynamics run in the NVT ensemble at unknown K was carried out on unknown atoms for unknown steps. At the end of the simulation, temperature = N/A K, potential energy = N/A eV, total energy = N/A eV. The system remained thermodynamically stable.
+
+=== lammps_nequip_nvt_stable_1 | STABILITY | label=Stable ===
+A constant-volume, constant-temperature (unknown K) MD simulation using NequIP was performed on unknown atoms. After unknown timesteps the total energy was N/A eV and the temperature had settled near N/A K. The configuration remained thermodynamically stable.
+
+=== lammps_nequip_nvt_stable_2 | STABILITY | label=Stable ===
+An NVT molecular dynamics simulation of unknown atoms with NequIP interactions was run at a target temperature of unknown K for unknown steps. The system remained thermodynamically stable. The final temperature was N/A K and the potential energy was N/A eV.
+
+=== lammps_nequip_nvt_stable_3 | STABILITY | label=Stable ===
+NVT dynamics at unknown K were applied to a unknown-atom NequIP system over unknown steps. The final potential energy was N/A eV. Based on the thermodynamic trajectory the system remained thermodynamically stable.
+
+=== lammps_nequip_nvt_stable_4 | STABILITY | label=Stable ===
+Using a Nosé-Hoover thermostat set to unknown K, a NequIP simulation of unknown atoms ran for unknown steps. Final state: T = N/A K, PE = N/A eV, E_total = N/A eV. The system remained thermodynamically stable.
+
+=== lammps_nequip_nvt_unstable_0 | STABILITY | label=Unstable ===
+NVT dynamics at unknown K were applied to a unknown-atom NequIP system over unknown steps. The final potential energy was N/A eV. Based on the thermodynamic trajectory the system exhibited signs of thermal instability.
+
+=== lammps_nequip_nvt_unstable_1 | STABILITY | label=Unstable ===
+A constant-volume, constant-temperature (unknown K) MD simulation using NequIP was performed on unknown atoms. After unknown timesteps the total energy was N/A eV and the temperature had settled near N/A K. The configuration exhibited signs of thermal instability.
+
+=== lammps_nequip_nvt_unstable_2 | STABILITY | label=Unstable ===
+An NVT molecular dynamics simulation of unknown atoms with NequIP interactions was run at a target temperature of unknown K for unknown steps. The system exhibited signs of thermal instability. The final temperature was N/A K and the potential energy was N/A eV.
+
+=== lammps_nequip_nvt_unstable_3 | STABILITY | label=Unstable ===
+Using a Nosé-Hoover thermostat set to unknown K, a NequIP simulation of unknown atoms ran for unknown steps. Final state: T = N/A K, PE = N/A eV, E_total = N/A eV. The system exhibited signs of thermal instability.
+
+=== lammps_nequip_nvt_unstable_4 | STABILITY | label=Unstable ===
+A NequIP molecular dynamics run in the NVT ensemble at unknown K was carried out on unknown atoms for unknown steps. At the end of the simulation, temperature = N/A K, potential energy = N/A eV, total energy = N/A eV. The system exhibited signs of thermal instability.
+

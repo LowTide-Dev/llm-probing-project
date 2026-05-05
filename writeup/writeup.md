@@ -9,7 +9,7 @@ MATH498 — Spring 2026
 Large Language Models (LLMs) that are trained and/or pretrained on science materials and text have been used 
 more and more for specialized work as they become smarter and more useful in such fields. One major example of this is in the world of materials science as being able to preform large scale atom simulations can be practially impossible on most computers and hard to compute without the help of an HPC, or perhaps now, an LLM. 
 Although the use of LLMs for this kind of work is becoming more and more frequent in today's world (I would recommend looking up Periodic Labs if you are not familar), it remains unclear whether the tasks performed by these LLMs are truly reflecting the physical concepts and aspects of the materials and their atoms or just preforming the pattern matching that neural networks are so good at. 
-This project hopes to apply linear probing to investiagte if science trained models can understad and wrap their metaphorical heads around the physics of quantum material level simulations. Specifically, by looking at the models' hidden layers and comparing them to a more general model. I plan on constructing a dataset of at least 50-100 (with hopes of up to 300 given time) text descriptions of atomic configurations derived from LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator) simulations. Each will be labeled with physical properties that seperate them from others. Then I will train logistic regression probes on the layer-wise [CLS] embeddings of all models and report selectivity scores to distinguish encoded knowledge from task-learning artifacts. I expect the most materials science specific models to show the highest selectivity in deeper layers; however, the most recent  literature (Rubungo et al., 2023) suggests that general-purpose models may already capture significant domain knowledge, making the null result equally informative.
+This project hopes to apply linear probing to investiagte if science trained models can understad and wrap their metaphorical heads around the physics of quantum material level simulations. Specifically, by looking at the models' hidden layers and comparing them to a more general model. I have constructed a dataset of 125 (with hopes of up to 300 given time) text descriptions of atomic configurations derived from LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator) simulations. Each will be labeled with physical properties that seperate them from others. Then I will train logistic regression probes on the layer-wise [CLS] embeddings of all models and report selectivity scores to distinguish encoded knowledge from task-learning artifacts. I expect the most materials science specific models to show the highest selectivity in deeper layers; however, the most recent  literature (Rubungo et al., 2023) suggests that general-purpose models may already capture significant domain knowledge, making the null result equally informative.
 
 ---
 
@@ -22,7 +22,7 @@ To truly examine the substantibility of these models understandings, I will be u
 
 This project applies linear probing to two binary physical properties drawn from computational materials science:
 
-1. **Convergence**: whether a self-consistent field (SCF) DFT calculation has converged.
+1. **Convergence**: whether a DFT calculation has converged.
 2. **Structural Stability**: whether a given atomic configuration is energetically stable.
 
 These properties are well-defined, simulation-grounded, and meaningful in materials research contexts. My central question is:
@@ -64,7 +64,7 @@ Hummel et al. (2026) provide a direct methodological template for this project's
 ## 3. Methodology
 
 ### 3.1 Dataset Construction
-I constructed a dataset of 50–100 text descriptions of atomic simulations, each labeled with one of two binary properties. Descriptions are generated from LAMMPS molecular dynamics and geometry optimization outputs, with each unique simulation paraphrased into five stylistically distinct descriptions to increase surface-level diversity while preserving the underlying physical content.
+I constructed a dataset of 125 text descriptions of atomic simulations, each labeled with one of two binary properties. Descriptions are generated from LAMMPS molecular dynamics and geometry optimization outputs, with each unique simulation paraphrased into five stylistically distinct descriptions to increase surface-level diversity while preserving the underlying physical content.
 
 Convergence label: 
 * Converged / Unconverged: whether a geometry optimization satisfied both energy and force tolerance criteria, or instead terminated early (e.g., hitting the maximum iteration limit or encountering line search failures)
@@ -79,6 +79,7 @@ Atomic level simulations model the behavior of large collections of atoms, speci
 * LJ/cut (Lennard-Jones potential) is a classical pairwise potential suitable for simple metals
 * NequIP is a machine-learned interatomic potential based on equivariant neural networks, capable of capturing more complex bonding environments.
 * NVT (constant **N**umber of atoms, **V**olume, and **T**emperature) and NPT (constant **N**umber of atoms, **P**ressure, and **T**emperature) are molecular dynamics runs
+* DFT (Density Functional Theory) is a quantum mechanical method for computing the structure of materials. It works by iteratively solving for the electron density through a procedure called the Self-Consistent Field (SCF) cycle, which repeats until the solution stops changing beyond a specified threshold. Whether the SCF cycle reaches that threshold, aka convergence, is one of the two probe targets.
 
 
 
@@ -122,8 +123,21 @@ To add later
 
 ### 4.1 Dataset Status
 
-The current dataset contains 45 text descriptions derived from 9 unique simulations, 5 per simulation. Of these, 25 are labeled for convergence (10 Converged, 15 Unconverged) and 20 for stability (10 Stable, 10 Unstable). Simulations use either a LJ/cut or NequIP potential, covering relax, NVT, and NPT run types.
-This is substantially smaller than the 100-300 examples originally proposed, and too small to draw reliable conclusions from probe training. The paraphrase structure means there are effectively only 9 independent data points, making an 80/20 train/test split unreliable. Time permitting, I hope to expand the dataset significantly before running probe training; results reported here should be treated as preliminary.
+The current dataset contains 125 text descriptions derived from 25 unique simulations, 5 per simulation. Of these, 25 are labeled for convergence (10 Converged, 15 Unconverged) and 20 for stability (10 Stable, 10 Unstable). Simulations use either a LJ/cut or NequIP potential, covering relax, NVT, and NPT run types.
+This is substantially smaller than the 300 examples originally proposed, and too small to draw reliable conclusions from probe training. The paraphrase structure means there are effectively only 25 independent data points, making an 80/20 train/test split unreliable. Time permitting, I hope to expand the dataset significantly before running probe training; results reported here should be treated as preliminary.
+
+Table 1 shows a sample of descriptions from the current dataset.
+
+| ID | Task | Label | Potential | Example Text (truncated) |
+|----|------|-------|-----------|--------------------------|
+| lammps_conv_lj_0 | Convergence | Converged | LJ/cut | "A geometry optimization using LJ/cut was run on 4 atoms... The relaxation satisfied both the energy and force tolerance criteria." |
+| lammps_relax_maxiter_lj_0 | Convergence | Unconverged | LJ/cut | "A geometry optimization using LJ/cut was run on 4 atoms... The relaxation terminated after reaching the maximum iteration limit." |
+| lammps_relax_linesearch_lj_0 | Convergence | Unconverged | LJ/cut | "A geometry optimization using LJ/cut was run on 4 atoms... The relaxation satisfied both the energy and force tolerance criteria." |
+| lammps_lj_low_0 | Stability | Stable | LJ/cut | "A constant-volume, constant-temperature (100.0 K) MD simulation... the configuration remained thermodynamically stable." |
+| lammps_lj_high_0 | Stability | Unstable | LJ/cut | "NVT dynamics at 2000.0 K were applied... the system exhibited signs of thermal instability." |
+| lammps_nequip_npt_high_0 | Stability | Unstable | NequIP | "...the system exhibited signs of mechanical failure or instability under high pressure. Dangerous neighbor list builds were detected." |
+
+*Table 1: Representative dataset examples across tasks, labels, and potentials.*
 
 
 ### 4.2 Preliminary Embedding Extraction
@@ -136,11 +150,10 @@ To add later
 ## 5. Expected Results and Preliminary Conclusions
 
 I anticipate the following outcomes, in rough order of probability:
-I anticipate the following outcomes, in rough order of probability:
 
-**Most likely**: The materials science specific models will outpreform the less materials science specific models on all tasks. 
+**Most likely**: Materials science-specific models will achieve higher peak selectivity than other models on both tasks, particularly in deeper layers where physical concepts would be expected to be most explicitly encoded.
 
-**Also plausible** (following Rubungo et al., 2023): SciBERT already achieves high selectivity on convergence or stability, suggesting that general scientific pretraining is sufficient to encode these concepts. If confirmed, this would indicate that domain-specific pretraining improves *generative* rather than representational quality.
+**Also plausible** (following Rubungo et al., 2023): The general science model(s) achieves comparable selectivity to the domain-specific models, suggesting that general scientific pretraining is sufficient to encode these concepts. This would indicate that domain-specific pretraining improves generative fluency or task performance rather than the quality of internal physical representations, which is itself a meaningful finding in my opinion.
 
 Our conclusion will follow from which of these outcomes the experiments support. The key comparison is not raw accuracy but selectivity, which isolates representational encoding from task-learning.
 
@@ -148,20 +161,21 @@ Our conclusion will follow from which of these outcomes the experiments support.
 
 ## 6. Roadblocks and Open Challenges
 
-1. **Data volume**: 50-100 examples is small for reliable probe training. I may face high variance in accuracy estimates. I are considering extending to 300 examples if simulation time permits.
+1. **Data volume**: 125 examples is small for reliable probe training. I may face high variance in accuracy estimates. I am considering extending to 300 examples if simulation time permits.
 
 2. **Distribution of descriptions**: The text descriptions are generated from our own simulations, which may have limited stylistic diversity. If descriptions are too similar (e.g., formulaic output from the same simulation code), the probe may learn surface patterns rather than physical semantics.
 
 3. **Defining "stability"**: Structural stability is inherently relative and threshold-dependent. I must be precise about what constitutes a stable vs. unstable configuration in our labeling pipeline to avoid noisy labels.
 
-4. **Compute**: Extracting embeddings across all 12 layers for both models on 50-100 examples is manageable; running a full grid of probes (12 layers × 2 models × 2 tasks × 5-fold CV) is feasible on CPU but will take time.
+4. **Compute**: Extracting embeddings across all layers for all models on (currently) 125 examples is manageable; running a full grid of probes (12 layers × 2 models × 2 tasks × 5-fold CV) is feasible on CPU but will take time.
+
+5. **Label leakage in description text**: Some descriptions from the dataset contains phrases that may directly signal the label. For example: "satisfied both the energy and force tolerance criteria" is strongly predictive of converged, and "exhibited signs of thermal instability" directly names the unstable class. This means a probe could achieve high accuracy by learning surface patterns rather than use any deeper physical encoding. Notably, the lammps_relax_linesearch examples from the data are labeled unconverged despite their descriptions reading identically to converged ones (same energy values, same "satisfied criteria" language), a probe that relies on surface text would mislabel these. The selectivity metric partially controls for this, but ideally descriptions would be rewritten to remove verdict language, or a separate surface-pattern baseline would be reported alongside probe accuracy.
 
 ---
 
 ## 7. Next Steps
-## 7. Next Steps
 
-- [ ] Complete dataset collection to 100 examples
+- [ ] Complete dataset collection to 200 examples
 - [ ] Run embedding extraction on full dataset 
 - [ ] Train and evaluate probes; compute selectivity curves
 - [ ] Statistical comparison of peak selectivity between models
