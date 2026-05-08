@@ -85,18 +85,7 @@ Atomic level simulations model the behavior of large collections of atoms, speci
 
 
 ### 3.2 Models
-*This section will likely change as I look to include a more recent model to compare.*
-
-We compare three BERT-style encoder models:
-We compare three BERT-style encoder models:
-
-| Model | Description |
-|-------|-------------|
-| **SciBERT** (Beltagy et al., 2019) | BERT pretrained on scientific text (biomedical + CS literature) |
-| **MatSciBERT** (Gupta et al., 2022) | SciBERT further pretrained on materials science literature |
-| **MaterialsBERT** (Shetty, P., . et al, 2023) | BERT trained from scratch on 750,000 inorganic, organic, and composite materials articles (2005–2019, ~3B words) | 
-
-All models use 12 transformer layers with a [CLS] token. I will extract the [CLS] embedding from each of the 12 layers of each model, yielding 24 embedding sets per example. I will also test mean-pooling across all tokens as an alternative to [CLS] extraction, given that physical knowledge in scientific text may be distributed across tokens rather than concentrated at [CLS].
+to edit
 
 ### 3.3 Probe Training
 
@@ -108,7 +97,6 @@ A layer with positive selectivity encodes the target concept in a way that goes 
 ### 3.4 Evaluation
 
 To report:
-To report:
 
 1. **Layer-wise probe accuracy** for all models on both tasks (convergence, stability)
 2. **Selectivity curves** across layers for both models
@@ -119,12 +107,10 @@ To report:
 
 ## 4. Experiments and Preliminary Results
 
-To add later
-
 ### 4.1 Dataset Status
 
-The current dataset contains 125 text descriptions derived from 25 unique simulations, 5 per simulation. Of these, 25 are labeled for convergence (10 Converged, 15 Unconverged) and 20 for stability (10 Stable, 10 Unstable). Simulations use either a LJ/cut or NequIP potential, covering relax, NVT, and NPT run types.
-This is substantially smaller than the 300 examples originally proposed, and too small to draw reliable conclusions from probe training. The paraphrase structure means there are effectively only 25 independent data points, making an 80/20 train/test split unreliable. Time permitting, I hope to expand the dataset significantly before running probe training; results reported here should be treated as preliminary.
+The final dataset contains 125 text descriptions derived from 25 unique simulations, with 5 distinct paraphrases per simulation. Of these, 70 examples across 14 simulations are labeled for convergence (45 Converged, 25 Unconverged) and 55 examples across 11 simulations are labeled for stability (35 Stable, 20 Unstable). Simulations span three interatomic potentials- LJ/cut, EAM, and NequIP, and three run types: relaxation, NVT molecular dynamics, and NPT molecular dynamics. Labels are assigned from simulation output, grounding them in well-defined physical criteria rather than manual annotation.
+This dataset is smaller than the 300 examples originally proposed. With 14 and 11 unique simulations respectively, the effective independent sample size is modest. All results should be interpreted with this in mind; the patterns we observe are consistent enough to be suggestive, but would benefit from replication on a larger dataset.
 
 Table 1 shows a sample of descriptions from the current dataset.
 
@@ -142,46 +128,58 @@ Table 1 shows a sample of descriptions from the current dataset.
 
 ### 4.2 Preliminary Embedding Extraction
 
-To add later
+I extracted layer-wise embeddings from two pretrained models:
 
+* MatSciBERT (Gupta et al., 2022): a BERT-style encoder with 12 transformer layers and hidden size 768, pretrained on materials science literature. I extracted the [CLS] token embedding and mean-pooled token embeddings from each of the 12 layers.
+* Llama-3.2-3B (Meta, 2024): a decoder-only transformer with 28 layers and hidden size 3072, pretrained on a large general-purpose corpus. For decoder models there is no [CLS] token; I use the last non-padding token as the summary representation, and additionally extract mean-pooled embeddings across all non-padding tokens.
 
----
+Extraction was performed on CPU for MatSciBERT and on an NVIDIA L40S GPU (Wendian HPC cluster) for Llama. For each example, embeddings from all layers are saved as numpy arrays of shape (n_examples, n_layers, hidden_size).
 
-## 5. Expected Results and Preliminary Conclusions
+### 4.3 Probe Training and Evaluation Protocol
 
-I anticipate the following outcomes, in rough order of probability:
+For each layer of each model, I trained an L2-regularized logistic regression probe using leave-one-simulation-out (LOSO) cross-validation. This ensures that all five paraphrases of the same underlying simulation are always held out together, preventing the probe from benefiting from surface similarity between training and test text. Prior to fitting, embeddings are standardized and reduced to 32 principal components via PCA (fit on the training split only), reducing the dimensionality from 768 or 3072 to a regime where logistic regression is both fast and well-regularized given the small sample size.
+A control probe is trained identically on randomly shuffled labels (averaged over 3 random seeds) to establish a chance-level baseline. Selectivity at layer \ell is defined as:
+\text{Selectivity}(\ell) = \text{Acc}_{\text{probe}}(\ell) - \text{Acc}_{\text{control}}(\ell)
+A layer with positive selectivity encodes the target concept beyond what the probe could recover by chance.
 
-**Most likely**: Materials science-specific models will achieve higher peak selectivity than other models on both tasks, particularly in deeper layers where physical concepts would be expected to be most explicitly encoded.
+### 4.4 Results: Convergence Task
+MatSciBERT achieves remarkably flat probe accuracy across all 12 layers, ranging from 0.857 to 0.886, with selectivity consistently between +0.37 and +0.44. The [CLS] embedding peaks at layer 11 (selectivity +0.443) while mean pooling peaks at layer 12 (+0.433). The absence of any depth-dependent trend, the probe does equally well at layer 1 as at layer 12, suggests that convergence information is encoded from the very first transformer layer and is not progressively refined at deeper layers.
+Llama-3.2-3B shows a sharply different pattern on the [CLS]/last-token representation. Layer 1 achieves perfect probe accuracy (1.000, selectivity +0.524), which immediately drops to approximately 0.843 at layer 2, then recovers and stabilizes around 0.929 for layers 6 through 27 before declining slightly at layer 28 (0.886, selectivity +0.362). Mean pooling is flat at 0.857 through most layers, with a very slight rise in layers 19–21, peaking at layer 21 (selectivity +0.452). The dramatic layer-1 spike in last-token representations is notable and discussed in Section 5.
+Cross-model comparison: Llama achieves higher probe accuracy and selectivity than MatSciBERT across most of the network depth on the convergence task, particularly in the [CLS]/last-token representation. Both models' control probes hover near 0.45–0.52, consistent with chance performance on the 64%/36% class-imbalanced dataset, confirming the selectivity measure is functioning correctly.
 
-**Also plausible** (following Rubungo et al., 2023): The general science model(s) achieves comparable selectivity to the domain-specific models, suggesting that general scientific pretraining is sufficient to encode these concepts. This would indicate that domain-specific pretraining improves generative fluency or task performance rather than the quality of internal physical representations, which is itself a meaningful finding in my opinion.
+### 4.5 Results: Stability Task
 
-Our conclusion will follow from which of these outcomes the experiments support. The key comparison is not raw accuracy but selectivity, which isolates representational encoding from task-learning.
+MatSciBERT shows stronger and more varied layer-wise behavior on the stability task than on convergence. [CLS] probe accuracy peaks at 1.000 at layer 3 (selectivity +0.479), then stabilizes around 0.945–0.964 for layers 4–12. Mean pooling peaks earlier at layer 2 (probe=0.982, selectivity +0.436) then gradually declines. The early peak at layer 3 is the most structurally interesting result from MatSciBERT, suggesting that stability information is particularly well-encoded in lower-middle layers of the encoder.
 
----
-
-## 6. Roadblocks and Open Challenges
-
-1. **Data volume**: 125 examples is small for reliable probe training. I may face high variance in accuracy estimates. I am considering extending to 300 examples if simulation time permits.
-
-2. **Distribution of descriptions**: The text descriptions are generated from our own simulations, which may have limited stylistic diversity. If descriptions are too similar (e.g., formulaic output from the same simulation code), the probe may learn surface patterns rather than physical semantics.
-
-3. **Defining "stability"**: Structural stability is inherently relative and threshold-dependent. I must be precise about what constitutes a stable vs. unstable configuration in our labeling pipeline to avoid noisy labels.
-
-4. **Compute**: Extracting embeddings across all layers for all models on (currently) 125 examples is manageable; running a full grid of probes (12 layers × 2 models × 2 tasks × 5-fold CV) is feasible on CPU but will take time.
-
-5. **Label leakage in description text**: Some descriptions from the dataset contains phrases that may directly signal the label. For example: "satisfied both the energy and force tolerance criteria" is strongly predictive of converged, and "exhibited signs of thermal instability" directly names the unstable class. This means a probe could achieve high accuracy by learning surface patterns rather than use any deeper physical encoding. Notably, the lammps_relax_linesearch examples from the data are labeled unconverged despite their descriptions reading identically to converged ones (same energy values, same "satisfied criteria" language), a probe that relies on surface text would mislabel these. The selectivity metric partially controls for this, but ideally descriptions would be rewritten to remove verdict language, or a separate surface-pattern baseline would be reported alongside probe accuracy.
+Llama-3.2-3B achieves substantially higher overall performance on stability. [CLS]/last-token probe accuracy reaches 1.000 at layers 4–8 and again at layers 27–28, with peak selectivity of +0.545 at layer 9. The selectivity curve remains above +0.45 for most of the network, indicating that stability information is robustly encoded at every depth. Mean pooling shows a striking late-layer pattern: accuracy stays around 0.909 through layers 1–14, then jumps to 1.000 at layer 15 and remains there through layer 28 — a sharp phase transition in representational quality in the second half of the network.
+Cross-model comparison: Llama outperforms MatSciBERT on stability by a larger margin than on convergence, both in raw probe accuracy and in selectivity. The selectivity gap between models is most visible in the stability task plots, where Llama's curve sits consistently ~0.05–0.10 above MatSciBERT across normalized depth.
 
 ---
 
-## 7. Next Steps
+## 5. Discussion and Conclusions
 
-- [ ] Complete dataset collection to 200 examples
-- [ ] Run embedding extraction on full dataset 
-- [ ] Train and evaluate probes; compute selectivity curves
-- [ ] Statistical comparison of peak selectivity between models
-- [ ] Generate final figures (layer-wise accuracy plots, selectivity bar charts)
-- [ ] Expand Sections 4 and 5 of this writeup with actual results
-- [ ] Finalize bibliography and check all citations
+### 5.1 Summary of Findings
+
+This project applied linear probing to compare a domain-specific materials science encoder (MatSciBERT) and a general-purpose decoder (Llama-3.2-3B) on two binary physical classification tasks derived from LAMMPS molecular dynamics simulations. The central finding is that Llama-3.2-3B encodes both convergence and structural stability more robustly than MatSciBERT across all layers, as measured by probe accuracy and selectivity. This result was not the expected outcome.
+
+### 5.2 The Null Result and What It Means
+
+The original hypothesis was that domain-specific pretraining on materials science text would produce richer internal representations of physical concepts. This hypothesis was not supported. MatSciBERT, despite being explicitly pretrained on the literature of the field, does not encode convergence or stability more explicitly than a general-purpose model trained on orders of magnitude more text. This result is consistent with Rubungo et al. (2023), who found that a general-purpose T5 encoder outperformed domain-specific models on materials property prediction, and with Zhang & Yang (PolyLLMem), who demonstrated that Llama 3 internalizes meaningful chemical structure from general pretraining alone.
+This does not mean domain-specific pretraining is without value. It may improve generative fluency, factual accuracy on niche terminology, or downstream fine-tuning efficiency, none of which are measured here. What it suggests is that representational quality, as measured by linear probing on frozen hidden states, is driven more by model scale and general pretraining data volume than by domain-specific corpus selection.
+
+### 5.3 Surface Form vs. Physical Understanding
+
+A critical limitation of both models' high probe accuracy is that convergence and stability labels are correlated with highly distinctive surface phrases in the text descriptions. Converged simulations contain phrases like "satisfied both the energy and force tolerance criteria," while unconverged ones contain "terminated after reaching the maximum iteration limit." Stable systems are described as having "remained thermodynamically stable," while unstable ones "exhibited signs of thermal instability." These phrases appear verbatim across paraphrases, meaning a probe — or the model — could achieve high accuracy by identifying these lexical markers rather than by encoding any deeper physical understanding.
+The flat layer-wise probe accuracy seen in both models on the convergence task is consistent with this interpretation: if the signal is lexical, it should be present at layer 1 and require no further processing, which is precisely what we observe. The layer-1 spike in Llama's [CLS]/last-token representation on convergence further supports this — the last token attends to the entire sequence and may be capturing the outcome phrase directly.
+The stability task's more varied layer-wise pattern (particularly MatSciBERT's layer-3 peak and Llama's mean-pooling phase transition at layer 15) is harder to explain by surface-form alone, and may reflect genuine structural encoding. However, with only 11 unique simulations for this task, these patterns cannot be interpreted with confidence
+
+### 5.4 Limitations
+
+The primary limitation of this study is dataset size. With 14 and 11 unique simulations for convergence and stability respectively, the LOSO cross-validation folds are small and variance in fold-level accuracy is high. The PCA reduction to 32 components was necessary to make probing tractable but may discard relevant variance in the embedding space. Additionally, comparing a 12-layer encoder to a 28-layer decoder introduces architectural confounds beyond domain specificity — the models differ in size, training data, training objective, and positional encoding scheme, making it difficult to attribute differences in probe accuracy to any single factor.
+
+### 5.5 Conclusions and Future Work
+This project demonstrates that linear probing is a viable interpretability tool for evaluating physical concept encoding in language models, and produces a clear empirical result: general-purpose scale outperforms domain-specific pretraining on the tasks studied here. Future work should expand the dataset to at least 300 examples across diverse simulation conditions to reduce variance, include a matched-size comparison model (e.g., a general-purpose BERT-base) to control for architecture, and design text descriptions that deliberately obscure outcome phrases to test whether probe accuracy survives the removal of lexical shortcuts.
+
 
 ---
 
