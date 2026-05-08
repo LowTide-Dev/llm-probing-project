@@ -159,8 +159,8 @@ MatSciBERT achieves remarkably flat probe accuracy across all 12 layers, ranging
 Llama-3.2-3B shows a sharply different pattern on the [CLS]/last-token representation. Layer 1 achieves perfect probe accuracy (1.000, selectivity +0.524), which immediately drops to approximately 0.843 at layer 2, then recovers and stabilizes around 0.929 for layers 6 through 27 before declining slightly at layer 28 (0.886, selectivity +0.362). Mean pooling is flat at 0.857 through most layers, with a very slight rise in layers 19–21, peaking at layer 21 (selectivity +0.452). The dramatic layer-1 spike in last-token representations is notable and discussed in Section 5.
 Cross-model comparison: Llama achieves higher probe accuracy and selectivity than MatSciBERT across most of the network depth on the convergence task, particularly in the [CLS]/last-token representation. Both models' control probes hover near 0.45–0.52, consistent with chance performance on the 64%/36% class-imbalanced dataset, confirming the selectivity measure is functioning correctly.
 
-![Probe Accuracy](llm-probing-project-fresh/writeup/docs/probe_accuracy_convergence_llama.png)
-![Probe Accuracy](llm-probing-project-fresh/writeup/docs/probe_accuracy_convergence_matscibert.png)
+![Probe Accuracy](docs/probe_accuracy_convergence_llama.png)
+![Probe Accuracy](docs/probe_accuracy_convergence_matscibert.png)
 
 
 ### 4.5 Results: Stability Task
