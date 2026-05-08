@@ -6,19 +6,20 @@ MATH498 — Spring 2026
 ---
 
 ## Abstract
-Large Language Models (LLMs) that are trained and/or pretrained on science materials and text have been used 
-more and more for specialized work as they become smarter and more useful in such fields. One major example of this is in the world of materials science as being able to preform large scale atom simulations can be practially impossible on most computers and hard to compute without the help of an HPC, or perhaps now, an LLM. 
-Although the use of LLMs for this kind of work is becoming more and more frequent in today's world (I would recommend looking up Periodic Labs if you are not familar), it remains unclear whether the tasks performed by these LLMs are truly reflecting the physical concepts and aspects of the materials and their atoms or just preforming the pattern matching that neural networks are so good at. 
-This project hopes to apply linear probing to investiagte if science trained models can understad and wrap their metaphorical heads around the physics of quantum material level simulations. Specifically, by looking at the models' hidden layers and comparing them to a more general model. I have constructed a dataset of 125 (with hopes of up to 300 given time) text descriptions of atomic configurations derived from LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator) simulations. Each will be labeled with physical properties that seperate them from others. Then I will train logistic regression probes on the layer-wise [CLS] embeddings of all models and report selectivity scores to distinguish encoded knowledge from task-learning artifacts. I expect the most materials science specific models to show the highest selectivity in deeper layers; however, the most recent  literature (Rubungo et al., 2023) suggests that general-purpose models may already capture significant domain knowledge, making the null result equally informative.
+
+Do large language models understand the physics of materials, or do they merely recognize patterns correlated with physical outcomes? I investigate this question by applying linear probing to the hidden representations of a materials science-specific language model (MatSciBERT) and a general-purpose model (Llama-3.2-3B), probing for binary physical properties derived from LAMMPS atomic simulations. These two models serve as contrasting test cases: one trained densely on domain literature, one trained on orders of magnitude more general text, together allowing me to ask whether high probe accuracy reflects genuine physical encoding or surface-level lexical recognition. 
+Large language models trained and/or pretrained on scientific text have been used increasingly for specialized work in materials science, where performing large-scale atomistic simulations can be practically impossible without an HPC cluster, or perhaps now, an LLM.¹ Yet strong benchmark performance does not establish that a model has formed a meaningful internal representation of the physics involved. I constructed a dataset of 125 text descriptions of atomic configurations derived from LAMMPS simulations, each labeled with one of two binary physical properties. I trained logistic regression probes on layer-wise embeddings of both models and report selectivity scores to distinguish encoded knowledge from task-learning artifacts. The primary finding is that high probe accuracy in both models is likely driven by lexical surface cues, outcome-determining phrases present verbatim in the text, rather than by deep physical encoding. A secondary finding is that Llama-3.2-3B achieves higher selectivity than MatSciBERT across most layers on both tasks, suggesting that general pretraining scale matters more than domain-specific corpus selection for representational quality.
 
 ---
 
 ## 1. Introduction
-As we've seen the growth and perfomance of LLMs sky-rocket on what kind of feels like a daily basis, scientists have wanted to test these models on specific knowledge. Notably, in the world of materials science- having a reliable LLM for things like predicting a materials properties or usefulness can be a huge assest, especially as the world that does test these things can be slower than the progress of AI. Currently, strong benchmark performance of an LLM does not necessarily mean that the given model have formed an actual, replicable understading/representation of the physics behind certain material structures and experiments/simulations. A model can achieve high accuracy on a materials question, answering the given task by using the known pattern recognition tools from texts and provided corpa, rather than truly knowing the atomic structure of anything it is give. 
+The application of large language models to materials science has accelerated rapidly, with domain-specific models such as MatSciBERT and LLaMat achieving strong performance on tasks including property prediction and information extraction. Yet a fundamental question remains unresolved: do these models encode physical concepts in their internal representations, or do they achieve high performance through surface-level pattern matching on scientific text?
 
-Being able to understanding the underlying physics does matter in a practical sense. If domain-specific pretraining, like science specific models, shows to improve task performance using true physical concepts and properties, then we should be able to use such models for greater purposes to help a research timeline(or the like) jump drastically. If the models really do understand these concepts, we should be able to see them via hidden representation in the hidden layers of the model. If, on the other hand, the improvement is superficial, domain-specific models carry a false sense of reliability, which can be detrimental, especially long-term.
+Currently, strong benchmark performance of an LLM does not necessarily mean that the given model have formed an actual, replicable understading/representation of the physics behind certain material structures and experiments/simulations. A model can achieve high accuracy on a materials question, answering the given task by using the known pattern recognition tools from texts and provided corpa, rather than truly knowing the atomic structure of anything it is give. 
 
-To truly examine the substantibility of these models understandings, I will be using Linear Probes. A linear probe (Alain & Bengio, 2016) is a logistic regression classifier that is trained on frozen hidden states of a pretrained model. If a probe trained on a particular layer achieves high accuracy, that layer's representations make the given concept linearly separable, meaning the model has already done the work of separating the two classes internally, a simple classifier on top is enough to read it out.
+Whether LLMs genuinely encode physical concepts matters practically. If high probe accuracy on physically-labeled text reflects true internal encoding of concepts like convergence or stability, then LLMs are a meaningful tool for materials reasoning, and the representations they build could be trusted and extended. If, on the other hand, that accuracy reflects surface-level pattern matching on outcome phrases in the text, then LLM reliability in materials science is overstated across the board, regardless of whether a model is domain-specific or general-purpose. A model that identifies the phrase "satisfied both the energy and force tolerance criteria" is not the same as a model that understands what convergence means physically. Linear probing gives us a way to begin distinguishing these two cases: if physical concepts are encoded, they should be linearly separable in the model's hidden states; if they are not, high accuracy is better explained by lexical shortcuts.
+
+To truly examine the substantibility of these models understandings, I used Linear Probes. A linear probe (Alain & Bengio, 2016) is a logistic regression classifier that is trained on frozen hidden states of a pretrained model. If a probe trained on a particular layer achieves high accuracy, that layer's representations make the given concept linearly separable, meaning the model has already done the work of separating the two classes internally, a simple classifier on top is enough to read it out.
 
 This project applies linear probing to two binary physical properties drawn from computational materials science:
 
@@ -27,13 +28,13 @@ This project applies linear probing to two binary physical properties drawn from
 
 These properties are well-defined, simulation-grounded, and meaningful in materials research contexts. My central question is:
 
-> *Do materials science-focused LLMs encode domain-relevant concepts more explicitly than general scientific models, as measured by linear probe selectivity on hidden representations?*
+> *Do LLMs understand the physics of materials, or do they merely recognize patterns correlated with physical outcomes, as measured by linear probe selectivity on hidden representations?*
 
 The answer has implications not only for materials science AI, but for the broader question of what domain-specific pretraining actually buys us at the representational level.
 
 ---
 
-## 2. Related Work (literature review)
+## 2. Related Work
 
 ### 2.1 Linear Probing as an Interpretability Method
 
@@ -41,7 +42,8 @@ Alain & Bengio (2016) introduced linear probes as a diagnostic tool for understa
 
 ### 2.2 Domain-Specific Language Models for Materials Science
 
-MatSciBERT (Gupta et al., 2022) extends BERT-style pretraining to materials science literature and demonstrates strong gains on named entity recognition and relation extraction tasks in the domain. LLaMat similarly shows that domain-specific pretraining can outperform larger general-purpose models on materials tasks. These results motivate the hypothesis that domain-specific models encode physical concepts more explicitly. Is is good to note that behavioral gains do not, by themselves, establish this.
+MatSciBERT (Gupta et al., 2022) extends BERT-style pretraining to materials science literature and demonstrates strong gains on named entity recognition and relation extraction tasks in the domain. LLaMat similarly shows that domain-specific pretraining can outperform larger general-purpose models on materials tasks. These behavioral results motivate one hypothesis tested in this project: that domain-specific pretraining produces richer internal representations of physical concepts, which should appear as higher linear probe selectivity in a domain-trained model like MatSciBERT relative to a general-purpose one.
+However, a second and more fundamental hypothesis underlies this work: that probe accuracy on physically-labeled text reflects genuine encoding of physical structure, rather than recognition of lexical markers correlated with physical outcomes. High probe accuracy is consistent with either story — a model could score well by encoding the physics, or by encoding the surface phrases that happen to co-occur with physical outcomes. This ambiguity is the central interpretive challenge of the project, and it is addressed in Section 5.
 
 ### 2.3 Surprising Strength of General-Purpose Models
 
@@ -81,28 +83,38 @@ Atomic level simulations model the behavior of large collections of atoms, speci
 * NVT (constant **N**umber of atoms, **V**olume, and **T**emperature) and NPT (constant **N**umber of atoms, **P**ressure, and **T**emperature) are molecular dynamics runs
 * DFT (Density Functional Theory) is a quantum mechanical method for computing the structure of materials. It works by iteratively solving for the electron density through a procedure called the Self-Consistent Field (SCF) cycle, which repeats until the solution stops changing beyond a specified threshold. Whether the SCF cycle reaches that threshold, aka convergence, is one of the two probe targets.
 
-
-
-
 ### 3.2 Models
-to edit
+#### MatSciBERT (BERT-style encoder):
+* Architecture: 12 transformer layers, hidden size 768, 110M parameters — a direct extension of BERT-base.
+* * Uses bidirectional self-attention (each token attends to all others simultaneously), so it sees the full context in every layer.
+* Produces a [CLS] token as its sequence-level representation.
+* Pretrained on ~2.4M materials science paper abstracts scraped from Elsevier, SpringerNature, and related sources, on top of the SciBERT checkpoint (Beltagy et al., 2019).
+* You extract embeddings from all 12 layers for both [CLS] and mean-pooled tokens.
+
+#### Llama-3.2-3B (decoder-only transformer):
+
+* Architecture: 28 transformer layers, hidden size 3072, ~3B parameters.
+* Uses causal (left-to-right) self-attention — each token only attends to prior tokens, so representations are built up auto-regressively. This is a key architectural difference from MatSciBERT worth mentioning.
+* No [CLS] token; you use the last non-padding token as the sequence summary, plus mean pooling.
+* Pretrained on a large general-purpose multilingual corpus (Meta, 2024) — orders of magnitude more text than MatSciBERT.
+* Uses Grouped Query Attention (GQA) and RoPE (Rotary Position Embeddings), which differ from BERT's absolute positional encodings.
 
 ### 3.3 Probe Training
 
-For each layer \ell \in \{1, ..., 12\} and each model, I plan to train a logistic regression probe on the extracted embeddings. The data will be split by unique simulation (80/20 train/test), ensuring that paraphrases of the same simulation are never split across sets. The probe is intentionally simple, L2-regularized logistic regression, because a more powerful classifier could learn to predict the label from any weak statistical regularity in the activations, which would say more about the probe's capacity rather than the model's representations.
-The plan is to also train a control probe on randomly shuffled labels. This establishes how much accuracy a probe can achieve, independent of the target concept. Selectivity is then defined as:
+For each layer \ell \in \{1, ..., 12\} and each model, I trained a logistic regression probe on the extracted embeddings. The data will be split by unique simulation, ensuring that paraphrases of the same simulation are never split across sets. The probe is intentionally simple, L2-regularized logistic regression, because a more powerful classifier could learn to predict the label from any weak statistical regularity in the activations, which would say more about the probe's capacity rather than the model's representations.
+I trained a control probe on randomly shuffled labels. This establishes how much accuracy a probe can achieve, independent of the target concept. Selectivity is then defined as:
 \text{Selectivity}(\ell) = \text{Acc}_{\text{probe}}(\ell) - \text{Acc}_{\text{control}}(\ell)
 A layer with positive selectivity encodes the target concept in a way that goes beyond what a probe could pick up by chance; a layer near zero selectivity does not, regardless of its raw accuracy.
 
 ### 3.4 Evaluation
 
-To report:
+I report the following:
 
-1. **Layer-wise probe accuracy** for all models on both tasks (convergence, stability)
-2. **Selectivity curves** across layers for both models
-3. **Peak selectivity layer** — which layer most explicitly encodes each concept
-4. **Model comparison**: Which models achieves highest peak selectivity?
-
+* Layer-wise probe accuracy for both models on both tasks (convergence, stability)* 
+* Selectivity curves across layers for both models
+* Peak selectivity layer; which layer most explicitly encodes each concept
+* Model comparison: which model achieves highest peak selectivity, and whether domain-specific pretraining or general scale better predicts representational quality
+* Surface-form analysis: whether layer-wise probe accuracy patterns are consistent with lexical marker detection (flat accuracy from layer 1, spike at the first layer in decoder models) or require deeper representational processing, used to evaluate whether high accuracy reflects physical understanding or pattern matching on outcome phrases
 ---
 
 ## 4. Experiments and Preliminary Results
@@ -137,8 +149,8 @@ Extraction was performed on CPU for MatSciBERT and on an NVIDIA L40S GPU (Wendia
 
 ### 4.3 Probe Training and Evaluation Protocol
 
-For each layer of each model, I trained an L2-regularized logistic regression probe using leave-one-simulation-out (LOSO) cross-validation. This ensures that all five paraphrases of the same underlying simulation are always held out together, preventing the probe from benefiting from surface similarity between training and test text. Prior to fitting, embeddings are standardized and reduced to 32 principal components via PCA (fit on the training split only), reducing the dimensionality from 768 or 3072 to a regime where logistic regression is both fast and well-regularized given the small sample size.
-A control probe is trained identically on randomly shuffled labels (averaged over 3 random seeds) to establish a chance-level baseline. Selectivity at layer \ell is defined as:
+For each layer of each model, I trained an L2-regularized logistic regression probe using leave-one-simulation-out (LOSO) cross-validation. This ensures that all five paraphrases of the same underlying simulation are always held out together, preventing the probe from benefiting from surface similarity between training and test text. Prior to fitting, embeddings are standardized and reduced to 32 principal components via PCA (fit on the training split only). This dimensionality was chosen to maintain a favorable sample-to-feature ratio given the small training set, while retaining the dominant structure of the representation space. The implicit assumption is that if a model encodes physical concepts like convergence or stability, that signal should appear in high-variance directions, an assumption acknowledged in Section 5.4.
+Selectivity at layer \ell is defined as:
 \text{Selectivity}(\ell) = \text{Acc}_{\text{probe}}(\ell) - \text{Acc}_{\text{control}}(\ell)
 A layer with positive selectivity encodes the target concept beyond what the probe could recover by chance.
 
@@ -146,6 +158,10 @@ A layer with positive selectivity encodes the target concept beyond what the pro
 MatSciBERT achieves remarkably flat probe accuracy across all 12 layers, ranging from 0.857 to 0.886, with selectivity consistently between +0.37 and +0.44. The [CLS] embedding peaks at layer 11 (selectivity +0.443) while mean pooling peaks at layer 12 (+0.433). The absence of any depth-dependent trend, the probe does equally well at layer 1 as at layer 12, suggests that convergence information is encoded from the very first transformer layer and is not progressively refined at deeper layers.
 Llama-3.2-3B shows a sharply different pattern on the [CLS]/last-token representation. Layer 1 achieves perfect probe accuracy (1.000, selectivity +0.524), which immediately drops to approximately 0.843 at layer 2, then recovers and stabilizes around 0.929 for layers 6 through 27 before declining slightly at layer 28 (0.886, selectivity +0.362). Mean pooling is flat at 0.857 through most layers, with a very slight rise in layers 19–21, peaking at layer 21 (selectivity +0.452). The dramatic layer-1 spike in last-token representations is notable and discussed in Section 5.
 Cross-model comparison: Llama achieves higher probe accuracy and selectivity than MatSciBERT across most of the network depth on the convergence task, particularly in the [CLS]/last-token representation. Both models' control probes hover near 0.45–0.52, consistent with chance performance on the 64%/36% class-imbalanced dataset, confirming the selectivity measure is functioning correctly.
+
+![Probe Accuracy](llm-probing-project-fresh/writeup/docs/probe_accuracy_convergence_llama.png)
+![Probe Accuracy](llm-probing-project-fresh/writeup/docs/probe_accuracy_convergence_matscibert.png)
+
 
 ### 4.5 Results: Stability Task
 
@@ -160,25 +176,24 @@ Cross-model comparison: Llama outperforms MatSciBERT on stability by a larger ma
 
 ### 5.1 Summary of Findings
 
-This project applied linear probing to compare a domain-specific materials science encoder (MatSciBERT) and a general-purpose decoder (Llama-3.2-3B) on two binary physical classification tasks derived from LAMMPS molecular dynamics simulations. The central finding is that Llama-3.2-3B encodes both convergence and structural stability more robustly than MatSciBERT across all layers, as measured by probe accuracy and selectivity. This result was not the expected outcome.
+This project applied linear probing to two pretrained language models, a domain-specific materials science encoder (MatSciBERT) and a general-purpose decoder (Llama-3.2-3B), on two binary physical classification tasks derived from LAMMPS atomistic simulations. The primary finding, which bears directly on the central research question, is that high probe accuracy in both models is likely explained by lexical surface cues rather than genuine physical concept encoding. The secondary finding is that Llama-3.2-3B outperforms MatSciBERT across most layers on both tasks, suggesting that general pretraining scale drives representational quality more than domain-specific corpus selection. Neither finding was the expected outcome.
 
-### 5.2 The Null Result and What It Means
+### 5.2 Surface Form vs. Physical Understanding
 
-The original hypothesis was that domain-specific pretraining on materials science text would produce richer internal representations of physical concepts. This hypothesis was not supported. MatSciBERT, despite being explicitly pretrained on the literature of the field, does not encode convergence or stability more explicitly than a general-purpose model trained on orders of magnitude more text. This result is consistent with Rubungo et al. (2023), who found that a general-purpose T5 encoder outperformed domain-specific models on materials property prediction, and with Zhang & Yang (PolyLLMem), who demonstrated that Llama 3 internalizes meaningful chemical structure from general pretraining alone.
-This does not mean domain-specific pretraining is without value. It may improve generative fluency, factual accuracy on niche terminology, or downstream fine-tuning efficiency, none of which are measured here. What it suggests is that representational quality, as measured by linear probing on frozen hidden states, is driven more by model scale and general pretraining data volume than by domain-specific corpus selection.
+A critical limitation of both models' high probe accuracy is that convergence and stability labels are correlated with highly distinctive surface phrases in the text descriptions. Converged simulations contain phrases like "satisfied both the energy and force tolerance criteria," while unconverged ones contain "terminated after reaching the maximum iteration limit." Stable systems are described as having "remained thermodynamically stable," while unstable ones "exhibited signs of thermal instability." These phrases appear verbatim across paraphrases, meaning a probe, or the model, could achieve high accuracy by identifying these lexical markers rather than by encoding any deeper physical understanding.
+The flat layer-wise probe accuracy on the convergence task is a concrete instance of the phenomenon the research question was designed to investigate. If the signal is lexical, it should be present from layer 1 and require no further processing, which is precisely what we observe in both models on convergence. The layer-1 spike in Llama's last-token representation further supports this interpretation: the last token attends to the entire sequence and may be capturing the outcome phrase directly at the earliest layer.
+The stability task's more varied layer-wise pattern, particularly MatSciBERT's layer-3 peak and Llama's mean-pooling phase transition at layer 15, is harder to explain by surface form alone, and may reflect some genuine structural encoding. However, with only 11 unique simulations for this task, these patterns cannot be interpreted with confidence.
+This is the central answer to the research question as posed: the evidence is more consistent with pattern recognition on outcome-correlated phrases than with physical understanding encoded in the representations. This does not foreclose the possibility that LLMs encode some physical concepts,  it means that this experimental design, with its outcome phrases present in the text, cannot distinguish the two cases. Future work that deliberately obscures outcome phrases is needed to resolve the ambiguity.
 
-### 5.3 Surface Form vs. Physical Understanding
+### 5.3 Limitations
 
-A critical limitation of both models' high probe accuracy is that convergence and stability labels are correlated with highly distinctive surface phrases in the text descriptions. Converged simulations contain phrases like "satisfied both the energy and force tolerance criteria," while unconverged ones contain "terminated after reaching the maximum iteration limit." Stable systems are described as having "remained thermodynamically stable," while unstable ones "exhibited signs of thermal instability." These phrases appear verbatim across paraphrases, meaning a probe — or the model — could achieve high accuracy by identifying these lexical markers rather than by encoding any deeper physical understanding.
-The flat layer-wise probe accuracy seen in both models on the convergence task is consistent with this interpretation: if the signal is lexical, it should be present at layer 1 and require no further processing, which is precisely what we observe. The layer-1 spike in Llama's [CLS]/last-token representation on convergence further supports this — the last token attends to the entire sequence and may be capturing the outcome phrase directly.
-The stability task's more varied layer-wise pattern (particularly MatSciBERT's layer-3 peak and Llama's mean-pooling phase transition at layer 15) is harder to explain by surface-form alone, and may reflect genuine structural encoding. However, with only 11 unique simulations for this task, these patterns cannot be interpreted with confidence
+The primary limitation of this study is dataset size. With 14 and 11 unique simulations for convergence and stability respectively, the LOSO cross-validation folds are small and variance in fold-level accuracy is high. The PCA reduction to 32 components was necessary to make probing tractable but may discard relevant variance in the embedding space. Additionally, comparing a 12-layer encoder to a 28-layer decoder introduces architectural confounds beyond domain specificity, the models differ in size, training data, training objective, and positional encoding scheme, making it difficult to attribute differences in probe accuracy to any single factor. Most importantly, the presence of outcome-determining phrases in the text means that high probe accuracy cannot be taken as evidence of physical understanding without a follow-up experiment that removes those phrases.
 
-### 5.4 Limitations
+### 5.4 Conclusions and Future Work
 
-The primary limitation of this study is dataset size. With 14 and 11 unique simulations for convergence and stability respectively, the LOSO cross-validation folds are small and variance in fold-level accuracy is high. The PCA reduction to 32 components was necessary to make probing tractable but may discard relevant variance in the embedding space. Additionally, comparing a 12-layer encoder to a 28-layer decoder introduces architectural confounds beyond domain specificity — the models differ in size, training data, training objective, and positional encoding scheme, making it difficult to attribute differences in probe accuracy to any single factor.
+This project demonstrates that linear probing is a viable interpretability tool for evaluating physical concept encoding in language models, and produces two empirical results: first, that high probe accuracy on physically-labeled simulation text is likely driven by lexical surface cues rather than deep physical encoding; and second, that general-purpose scale outperforms domain-specific pretraining on the representational quality metrics studied here. The more important of these is the first — it reframes what it would mean for an LLM to "understand" materials physics, and sets a concrete methodological bar for future work to clear.
+Future work should: expand the dataset to at least 300 examples across diverse simulation conditions to reduce variance; include a matched-size comparison model (e.g., a general-purpose BERT-base) to control for architecture; and most critically, design text descriptions that deliberately obscure outcome phrases, replacing "satisfied both the energy and force tolerance criteria" with numerical energy and force values only, to test whether probe accuracy survives the removal of lexical shortcuts. If it does, that would be meaningful evidence of physical understanding. If it does not, the null result would be definitive.
 
-### 5.5 Conclusions and Future Work
-This project demonstrates that linear probing is a viable interpretability tool for evaluating physical concept encoding in language models, and produces a clear empirical result: general-purpose scale outperforms domain-specific pretraining on the tasks studied here. Future work should expand the dataset to at least 300 examples across diverse simulation conditions to reduce variance, include a matched-size comparison model (e.g., a general-purpose BERT-base) to control for architecture, and design text descriptions that deliberately obscure outcome phrases to test whether probe accuracy survives the removal of lexical shortcuts.
 
 
 ---
@@ -190,6 +205,9 @@ This project demonstrates that linear probing is a viable interpretability tool 
 | Talia Kumar | All aspects: research question, dataset generation, modeling, analysis, writing |
 
 ---
+
+## Footnotes:
+¹ Periodic Labs (periodic.com) is a notable recent example: a startup founded in 2025 by former OpenAI VP Liam Fedus and Google DeepMind materials scientist Ekin Dogus Cubuk, aiming to combine frontier LLMs with autonomous robotic laboratories to accelerate materials discovery.
 
 ## References
 
