@@ -150,17 +150,18 @@ Extraction was performed on CPU for MatSciBERT and on an NVIDIA L40S GPU (Wendia
 ### 4.3 Probe Training and Evaluation Protocol
 
 For each layer of each model, I trained an L2-regularized logistic regression probe using leave-one-simulation-out (LOSO) cross-validation. This ensures that all five paraphrases of the same underlying simulation are always held out together, preventing the probe from benefiting from surface similarity between training and test text. Prior to fitting, embeddings are standardized and reduced to 32 principal components via PCA (fit on the training split only). This dimensionality was chosen to maintain a favorable sample-to-feature ratio given the small training set, while retaining the dominant structure of the representation space. The implicit assumption is that if a model encodes physical concepts like convergence or stability, that signal should appear in high-variance directions, an assumption acknowledged in Section 5.4.
-Selectivity at layer \ell is defined as:
-\text{Selectivity}(\ell) = \text{Acc}_{\text{probe}}(\ell) - \text{Acc}_{\text{control}}(\ell)
-A layer with positive selectivity encodes the target concept beyond what the probe could recover by chance.
+Selectivity at layer ℓ is defined as:
+Selectivity(ℓ) = Acc_probe(ℓ) − Acc_control(ℓ)A layer with positive selectivity encodes the target concept beyond what the probe could recover by chance.
 
 ### 4.4 Results: Convergence Task
 MatSciBERT achieves remarkably flat probe accuracy across all 12 layers, ranging from 0.857 to 0.886, with selectivity consistently between +0.37 and +0.44. The [CLS] embedding peaks at layer 11 (selectivity +0.443) while mean pooling peaks at layer 12 (+0.433). The absence of any depth-dependent trend, the probe does equally well at layer 1 as at layer 12, suggests that convergence information is encoded from the very first transformer layer and is not progressively refined at deeper layers.
 Llama-3.2-3B shows a sharply different pattern on the [CLS]/last-token representation. Layer 1 achieves perfect probe accuracy (1.000, selectivity +0.524), which immediately drops to approximately 0.843 at layer 2, then recovers and stabilizes around 0.929 for layers 6 through 27 before declining slightly at layer 28 (0.886, selectivity +0.362). Mean pooling is flat at 0.857 through most layers, with a very slight rise in layers 19–21, peaking at layer 21 (selectivity +0.452). The dramatic layer-1 spike in last-token representations is notable and discussed in Section 5.
 Cross-model comparison: Llama achieves higher probe accuracy and selectivity than MatSciBERT across most of the network depth on the convergence task, particularly in the [CLS]/last-token representation. Both models' control probes hover near 0.45–0.52, consistent with chance performance on the 64%/36% class-imbalanced dataset, confirming the selectivity measure is functioning correctly.
 
-![Probe Accuracy](docs/probe_accuracy_convergence_llama.png)
-![Probe Accuracy](docs/probe_accuracy_convergence_matscibert.png)
+![Figure 1: Layer-wise probe accuracy and selectivity for Llama model on the convergence task (CLS/last-token pooling). Llama's layer-1 spike and otherwise flat selectivity are consistent with lexical surface-form detection rather than progressive physical encoding.](docs/probe_accuracy_convergence_llama.png)
+![Figure 2: Layer-wise probe accuracy and selectivity for MatSciBert model on the convergence task (CLS/last-token pooling). MatSciBert's flat selectivity are consistent with lexical surface-form detection rather than progressive physical encoding.](docs/probe_accuracy_convergence_matscibert.png)
+
+![Figure 3: Selectivity by layer for MatSciBERT on the convergence task. The absence of any depth-dependent trend, selectivity is as high at layer 1 as at layer 12, suggests convergence information is present in early surface-level representations.](docs/selectivity_convergence_matscibert.png)
 
 
 ### 4.5 Results: Stability Task
@@ -169,6 +170,8 @@ MatSciBERT shows stronger and more varied layer-wise behavior on the stability t
 
 Llama-3.2-3B achieves substantially higher overall performance on stability. [CLS]/last-token probe accuracy reaches 1.000 at layers 4–8 and again at layers 27–28, with peak selectivity of +0.545 at layer 9. The selectivity curve remains above +0.45 for most of the network, indicating that stability information is robustly encoded at every depth. Mean pooling shows a striking late-layer pattern: accuracy stays around 0.909 through layers 1–14, then jumps to 1.000 at layer 15 and remains there through layer 28 — a sharp phase transition in representational quality in the second half of the network.
 Cross-model comparison: Llama outperforms MatSciBERT on stability by a larger margin than on convergence, both in raw probe accuracy and in selectivity. The selectivity gap between models is most visible in the stability task plots, where Llama's curve sits consistently ~0.05–0.10 above MatSciBERT across normalized depth.
+
+![Figure 4: Layer-wise probe accuracy and selectivity for both models on the stability task (CLS/last-token pooling). Llama maintains higher selectivity across most of the network; MatSciBERT peaks early at layer 3.](docs/comparison_stability.png)
 
 ---
 
@@ -184,6 +187,9 @@ A critical limitation of both models' high probe accuracy is that convergence an
 The flat layer-wise probe accuracy on the convergence task is a concrete instance of the phenomenon the research question was designed to investigate. If the signal is lexical, it should be present from layer 1 and require no further processing, which is precisely what we observe in both models on convergence. The layer-1 spike in Llama's last-token representation further supports this interpretation: the last token attends to the entire sequence and may be capturing the outcome phrase directly at the earliest layer.
 The stability task's more varied layer-wise pattern, particularly MatSciBERT's layer-3 peak and Llama's mean-pooling phase transition at layer 15, is harder to explain by surface form alone, and may reflect some genuine structural encoding. However, with only 11 unique simulations for this task, these patterns cannot be interpreted with confidence.
 This is the central answer to the research question as posed: the evidence is more consistent with pattern recognition on outcome-correlated phrases than with physical understanding encoded in the representations. This does not foreclose the possibility that LLMs encode some physical concepts,  it means that this experimental design, with its outcome phrases present in the text, cannot distinguish the two cases. Future work that deliberately obscures outcome phrases is needed to resolve the ambiguity.
+
+![Figure 5: Selectivity heatmap for Llama on the convergence task, showing both CLS/last-token and mean-pooled representations across all 28 layers. The layer-1 spike in CLS/last-token selectivity (+0.52) against an otherwise uniform background is consistent with the last token attending directly to an outcome phrase at the surface level.](docs/heatmap_convergence_llama.png)
+
 
 ### 5.3 Limitations
 
