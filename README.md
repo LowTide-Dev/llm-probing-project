@@ -92,7 +92,7 @@ llm-probing-project-fresh/
 
 | Item | Location |
 |------|----------|
-| Main writeup / paper | `writeup/writeup.md` |
+| Main writeup / paper | `writeup/writeup.pdf` |
 | Figures used in writeup | `writeup/docs/` |
 | All generated figures | `results/figures/` |
 | Probe results (CSV) | `results/` |
@@ -107,21 +107,36 @@ llm-probing-project-fresh/
 
 ## Quickstart
 
+## Quickstart
+
+> **Note:** Pre-extracted embeddings are already committed to `data/embeddings/`, so you can
+> skip directly to probe training and visualization without re-running the (GPU-intensive)
+> embedding extraction step.
+
 ```bash
 # 1. Install dependencies
 pip install -r requirements.txt
-
-# 2. Run the full pipeline
-python src/main.py
-
-# Or run steps individually:
-python src/extract_embeddings.py   # Extract layer-wise embeddings
-python src/train_probes.py         # Train probes and compute selectivity
-python src/visualize_results.py    # Generate figures
 ```
 
-Embedding extraction for Llama was run on an NVIDIA L40S GPU (Wendian HPC cluster).
-MatSciBERT embeddings were extracted on CPU.
+**To reproduce results from existing embeddings (recommended):**
+```bash
+python src/train_probes.py        # Train probes + compute selectivity → results/*.csv
+python src/visualize_results.py   # Generate all figures → results/figures/
+```
+
+**To re-extract embeddings from scratch** (requires GPU for Llama; HuggingFace access required):
+```bash
+python src/extract_embeddings.py  # Layer-wise CLS + mean embeddings for both models
+python src/extract_cls.py         # CLS/last-token extraction only
+```
+
+**To run the full pipeline end-to-end:**
+```bash
+python src/main.py
+```
+
+> Llama-3.2-3B embedding extraction was run on an NVIDIA L40S GPU (Wendian HPC cluster).
+> MatSciBERT embeddings were extracted on CPU. Probe training and visualization run on CPU.
 
 ---
 
