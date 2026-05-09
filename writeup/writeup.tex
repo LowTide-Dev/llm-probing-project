@@ -43,8 +43,8 @@
 
 % -------------------------------------------------------
 \begin{abstract}
-Do large language models understand the physics of materials, or do they merely recognize patterns correlated with physical outcomes? I investigate this question by applying linear probing to the hidden representations of a materials science-specific language model (MatSciBERT) and a general-purpose model (Llama-3.2-3B), probing for binary physical properties derived from LAMMPS atomic simulations. These two models serve as contrasting test cases: one trained densely on domain literature, one trained on orders of magnitude more general text, together allowing me to ask whether high probe accuracy reflects genuine physical encoding or surface-level lexical recognition. 
-Large language models trained and/or pretrained on scientific text have been used increasingly for specialized work in materials science, where performing large-scale atomistic simulations can be practically impossible without an HPC cluster, or perhaps now, an LLM.¹ Yet strong benchmark performance does not establish that a model has formed a meaningful internal representation of the physics involved. I constructed a dataset of 125 text descriptions of atomic configurations derived from LAMMPS simulations, each labeled with one of two binary physical properties. I trained logistic regression probes on layer-wise embeddings of both models and report selectivity scores to distinguish encoded knowledge from task-learning artifacts. The primary finding is that high probe accuracy in both models is likely driven by lexical surface cues, outcome-determining phrases present verbatim in the text, rather than by deep physical encoding. A secondary finding is that Llama-3.2-3B achieves higher selectivity than MatSciBERT across most layers on both tasks, suggesting that general pretraining scale matters more than domain-specific corpus selection for representational quality.
+Do large language models understand the physics of materials, or do they merely recognize patterns correlated with physical outcomes? I investigate this question by applying linear probing to the hidden representations of a materials science-specific language model (MatSciBERT) and a general-purpose scientific model (LLama), probing for binary physical properties derived from LAMMPS molecular dynamics simulations. To isolate the effect of domain-specific pretraining from surface-level pattern matching, I introduce a selectivity metric, probe accuracy minus control probe accuracy on shuffled labels, that controls for lexical shortcuts present in the probe targets. 
+Large language models trained and/or pretrained on scientific text have been used increasingly for specialized work in materials science, where performing large-scale atomistic simulations can be practically impossible without an HPC cluster, or perhaps now, an LLM.\footnote{Periodic Labs (periodic.com) is a notable recent example: a startup founded in 2025 by former OpenAI VP Liam Fedus and Google DeepMind materials scientist Ekin Dogus Cubuk, aiming to combine frontier LLMs with autonomous robotic laboratories to accelerate materials discovery.} Yet strong benchmark performance does not establish that a model has formed a meaningful internal representation of the physics involved. I constructed a dataset of 125 text descriptions of atomic configurations derived from LAMMPS simulations, each labeled with one of two binary physical properties. I trained logistic regression probes on layer-wise embeddings of both models and report selectivity scores to distinguish encoded knowledge from task-learning artifacts. The primary finding is that high probe accuracy in both models is likely driven by lexical surface cues, outcome-determining phrases present verbatim in the text, rather than by deep physical encoding. A secondary finding is that Llama-3.2-3B achieves higher selectivity than MatSciBERT across most layers on both tasks, suggesting that general pretraining scale matters more than domain-specific corpus selection for representational quality.
 \end{abstract}
 
 \vspace{1em}
@@ -95,7 +95,7 @@ Rubungo et al.\ \cite{rubungo2023} present LLM-Prop, which finds that a general-
 
 \subsection{Token-Level Chemical Understanding}
 
-Zhang \& Yang (PolyLLMem) visualize Llama~3 embeddings with UMAP and find that the model naturally clusters representations by physical properties prior to task-specific training. Token-level analysis further reveals that the model internalizes structural chemistry, recognizing aromatic rings and the effects of functional groups. This supports the possibility that general pretraining on scientific text may be enough to form meaningful physical representations.
+Zhang \& Yang (PolyLLMem) \cite{zhang_yang} visualize Llama~3 embeddings with UMAP and find that the model naturally clusters representations by physical properties prior to task-specific training. Token-level analysis further reveals that the model internalizes structural chemistry, recognizing aromatic rings and the effects of functional groups. This supports the possibility that general pretraining on scientific text may be enough to form meaningful physical representations.
 
 \subsection{Robustness Limitations}
 
@@ -145,7 +145,7 @@ Atomic-level simulations model the behavior of large collections of atoms, speci
     \item Architecture: 12 transformer layers, hidden size 768, 110M parameters — a direct extension of BERT-base.
     \item Uses bidirectional self-attention (each token attends to all others simultaneously), so it sees the full context in every layer.
     \item Produces a [CLS] token as its sequence-level representation.
-    \item Pretrained on ~2.4M materials science paper abstracts scraped from Elsevier, SpringerNature, and related sources, on top of the SciBERT checkpoint (Beltagy et al., 2019).
+    \item Pretrained on ~2.4M materials science paper abstracts scraped from Elsevier, SpringerNature, and related sources, on top of the SciBERT checkpoint (Beltagy et al., 2019) \cite{beltagy2019}
     \item Extract embeddings from all 12 layers for both [CLS] and mean-pooled tokens.
 \end{enumerate}
 
@@ -237,21 +237,21 @@ Llama-3.2-3B shows a sharply different pattern on the [CLS]/last-token represent
 \newpage
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{probe_accuracy_convergence_llama.png}
+    \includegraphics[width=0.8\textwidth]{docs/probe_accuracy_convergence_llama.png}
     \caption{Layer-wise probe accuracy and selectivity for Llama model on the convergence task (CLS/last-token pooling). Llama's layer-1 spike and otherwise flat selectivity are consistent with lexical surface-form detection rather than progressive physical encoding.}
     \label{fig:convergence}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{probe_accuracy_convergence_matscibert.png}
+    \includegraphics[width=0.8\textwidth]{docs/probe_accuracy_convergence_matscibert.png}
     \caption{Layer-wise probe accuracy and selectivity for MatSciBert model on the convergence task (CLS/last-token pooling). MatSciBert's flat selectivity are consistent with lexical surface-form detection rather than progressive physical encoding.}
     \label{fig:convergence}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{selectivity_convergence_matscibert.png}
+    \includegraphics[width=0.8\textwidth]{docs/selectivity_convergence_matscibert.png}
     \caption{Selectivity by layer for MatSciBERT on the convergence task. The absence of any depth-dependent trend, selectivity is as high at layer 1 as at layer 12, suggests convergence information is present in early surface-level representations.}
     \label{fig:convergence}
 \end{figure}
@@ -267,9 +267,9 @@ Llama-3.2-3B achieves substantially higher overall performance on stability. [CL
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{comparison_stability.png}
+    \includegraphics[width=0.8\textwidth]{docs/comparison_stability.png}
     \caption{Layer-wise probe accuracy and selectivity for both models on the stability task (CLS/last-token pooling). Llama maintains higher selectivity across most of the network; MatSciBERT peaks early at layer 3.}
-    \label{fig:convergence}
+    \label{fig:stability}
 \end{figure}
 \newpage
 
@@ -289,14 +289,14 @@ This is the central answer to the research question as posed: the evidence is mo
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{heatmap_convergence_llama.png}
+    \includegraphics[width=0.8\textwidth]{docs/heatmap_convergence_llama.png}
     \caption{Selectivity heatmap for Llama on the convergence task, showing both CLS/last-token and mean-pooled representations across all 28 layers. The layer-1 spike in CLS/last-token selectivity (+0.52) against an otherwise uniform background is consistent with the last token attending directly to an outcome phrase at the surface level.}
     \label{fig:convergence}
 \end{figure}
 
 \subsection{Limitations}
 
-The primary limitation of this study is dataset size. With 14 and 11 unique simulations for convergence and stability respectively, the LOSO cross-validation folds are small and variance in fold-level accuracy is high. The PCA reduction to 32 components was necessary to make probing tractable but may discard relevant variance in the embedding space. Additionally, comparing a 12-layer encoder to a 28-layer decoder introduces architectural confounds beyond domain specificity, the models differ in size, training data, training objective, and positional encoding scheme, making it difficult to attribute differences in probe accuracy to any single factor. Most importantly, the presence of outcome-determining phrases in the text means that high probe accuracy cannot be taken as evidence of physical understanding without a follow-up experiment that removes those phrases.
+The primary limitation of this study is the dataset size. With 14 and 11 unique simulations for convergence and stability, respectively, the LOSO cross-validation folds are small, and the variance in fold-level accuracy is high. The PCA reduction to 32 components was necessary to make probing tractable, but may discard relevant variance in the embedding space. Additionally, comparing a 12-layer encoder to a 28-layer decoder introduces architectural confounds beyond domain specificity; the models differ in size, training data, training objective, and positional encoding scheme, making it difficult to attribute differences in probe accuracy to any single factor. The claim that general pretraining scale outperforms domain-specific pretraining cannot be cleanly supported by this comparison, because Llama-3.2-3B differs from MatSciBERT in parameter count, architecture, training objective, and positional encoding simultaneously. Concretely, the secondary finding, that Llama's mean-pooled representations undergo a sharp phase transition at layer 15 on the stability task while MatSciBERT's peak early and decline, may reflect differences in decoder versus encoder processing dynamics rather than anything attributable to domain-specific pretraining. A cleaner test of the domain pretraining hypothesis would require a matched comparison: a general-purpose BERT-base model against MatSciBERT, holding architecture, parameter count, and training objective constant while varying only the pretraining corpus.
 
 \subsection{Conclusions and Future Work}
 
@@ -336,23 +336,17 @@ Tanishq Gupta et al.
 \bibitem{hummel2026}
 H. I. Hummel, S. Bhulai, R. van der Mei, and B. Ghani.
 \newblock Linear probing enables Ship-Radiated Noise recognition with pretrained audio embeddings.
-\newblock [Ecological Informatics], 2026.
+\newblock Ecological Informatics, vol. 95, p. 103709, May 2026
 
 \bibitem{rubungo2023}
 Andre Niyongabo Rubungo et al.
 \newblock LLM-Prop: Predicting physical and electronic properties of crystalline solids from their text descriptions.
 \newblock \textit{arXiv preprint arXiv:2310.05512}, 2023.
 
-\bibitem{tang2025}
-Yingheng Tang et al.
-\newblock MatterChat: A multi-modal LLM for material science.
-\newblock \textit{arXiv preprint arXiv:2502.13107}, 2025.
-
 \bibitem{tenney2019}
 Ian Tenney, Dipanjan Das, and Ellie Pavlick.
 \newblock BERT rediscovers the classical NLP pipeline.
 \newblock In \textit{Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics}, pages 4593--4601, 2019.
-
 
 \bibitem{zhang_yang}
 Tianren Zhang, Dai-Bei Yang
