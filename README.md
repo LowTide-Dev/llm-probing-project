@@ -24,7 +24,8 @@ llm-probing-project-fresh/
 ├── README.md                          ← You are here. Navigation guide.
 │
 ├── writeup/
-│   ├── writeup.md                     ← Main paper writeup (Markdown, conference-style)
+│   ├── writeup.pdf                     ← Main paper writeup (PDF, conference-style)
+|   |── writeup.tex
 │   └── docs/                          ← Figures embedded in writeup
 │       ├── comparison_convergence.png
 │       ├── comparison_stability.png
